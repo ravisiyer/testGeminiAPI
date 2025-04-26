@@ -55,13 +55,18 @@ export default function Home() {
   return (
     <div className="chat-container">
       {response.length === 0 ? (
-        <h1>Got Questions? Chatty's Got Answers.</h1> 
+        <div> 
+        <h1>Gemini AI API Trial</h1> 
+        <h2>Model used: {process.env.REACT_APP_GEMINI_MODEL_NAME}</h2>
+        </div>
       ) : (
         <div className="chat-history">
           {response.map((msg, index) => (
-            <p key={index} className={`message ${msg.type}`}>
+            <div key={index} className={`message ${msg.type}`}>
+            {/* <p key={index} className={`message ${msg.type}`}> */}
               <ReactMarkdown>{msg.message}</ReactMarkdown>
-            </p>
+            </div>
+            // </p>
           ))}
           {isLoading && <p className="loading-text">Generating response...</p>}
         </div>
