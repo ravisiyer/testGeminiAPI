@@ -58,7 +58,7 @@ export default function Home() {
         <div> 
         <h1>Gemini AI API Trial</h1> 
         <h2>Model used: {process.env.REACT_APP_GEMINI_MODEL_NAME}</h2>
-        <p>This simple trial app is based on the article:&nbsp; 
+        <p className="attribution">This simple trial app is based on the article:&nbsp; 
           <a href="https://dev.to/tahrim_bilal/how-to-integrate-gemini-api-with-reactjs-a-step-by-step-guide-341b">
           How to Integrate Gemini API with React.js: A Step-by-Step Guide.</a> Many thanks to the author and publisher of the article. 
         </p>
