@@ -58,15 +58,18 @@ export default function Home() {
         <div> 
         <h1>Gemini AI API Trial</h1> 
         <h2>Model used: {process.env.REACT_APP_GEMINI_MODEL_NAME}</h2>
+        <p>This simple trial app is based on the article:&nbsp; 
+          <a href="https://dev.to/tahrim_bilal/how-to-integrate-gemini-api-with-reactjs-a-step-by-step-guide-341b">
+          How to Integrate Gemini API with React.js: A Step-by-Step Guide.</a> Many thanks to the author and publisher of the article. 
+        </p>
+        {isLoading && <p className="loading-text">Generating response...</p>}
         </div>
       ) : (
         <div className="chat-history">
           {response.map((msg, index) => (
             <div key={index} className={`message ${msg.type}`}>
-            {/* <p key={index} className={`message ${msg.type}`}> */}
               <ReactMarkdown>{msg.message}</ReactMarkdown>
             </div>
-            // </p>
           ))}
           {isLoading && <p className="loading-text">Generating response...</p>}
         </div>
@@ -82,6 +85,7 @@ export default function Home() {
           onKeyDown={handleKeyPress}
           placeholder="Type your message here..."
           className="chat-input"
+          disabled = {isLoading ? true : false}
         />
 
         <button onClick={handleSubmit} className="send-btn">
