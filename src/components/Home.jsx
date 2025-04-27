@@ -27,10 +27,6 @@ export default function Home() {
       return;
     }
 
-    // Test code
-    // setResponse([{ type: "system", message: "Got to handleSubmit(). Aborting call to Gemini as this is test code.." }]);
-    // return;
-
     setIsLoading(true);
     try {
       const res = await generateContent(userInput);
@@ -52,19 +48,6 @@ export default function Home() {
   };
 
   const handleKeyPress = (e) => {
-    // if (e.getModifierState('CapsLock')) {
-    //   setResponse([{ type: "system", message: "handleKeyPress: CapsLock is On." }]);
-    //   return
-    // }
-    // if (e.shiftKey) {
-    //   setResponse([{ type: "system", message: "handleKeyPress: Shift Key is On." }]);
-    //   return
-    // }
-    // if (isMobile) {
-    //   setResponse([{ type: "system", message: "App is running on mobile." }]);
-    //   return
-    // }
-
     // Chrome on Android does not seem to set e.ShiftKey correctly. So if on mobile, ignore all keys including Enter
     // User has to tap Send button to send message to Gemini.
     // The event handler itself will not be set. But the code below plays safe.
@@ -111,16 +94,6 @@ export default function Home() {
           disabled = {isLoading ? true : false}
           maxRows={10}
         />
-        {/* <textarea
-          type="text"
-          value={userInput}
-          onChange={handleUserInput}
-          onKeyDown={isMobile ? undefined : handleKeyPress}
-          // onKeyDown={handleKeyPress}
-          placeholder="Type your message here..."
-          className="chat-input"
-          disabled = {isLoading ? true : false}
-        /> */}
         <div>
         <button onClick={handleSubmit} className="send-btn">
           <IoIosSend />
