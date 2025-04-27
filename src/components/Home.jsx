@@ -46,7 +46,7 @@ export default function Home() {
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
+      if (!e.shiftKey && e.key === 'Enter') {
       e.preventDefault();
       handleSubmit();
     }
@@ -76,9 +76,7 @@ export default function Home() {
       )}
 
       <div className="input-container">
-        <button onClick={handleClear} className="clear-btn">Clear</button>
-
-        <input
+        <textarea
           type="text"
           value={userInput}
           onChange={handleUserInput}
@@ -87,10 +85,22 @@ export default function Home() {
           className="chat-input"
           disabled = {isLoading ? true : false}
         />
+        {/* <input
+          type="text"
+          value={userInput}
+          onChange={handleUserInput}
+          onKeyDown={handleKeyPress}
+          placeholder="Type your message here..."
+          className="chat-input"
+          disabled = {isLoading ? true : false}
+        /> */}
 
+        <div>
         <button onClick={handleSubmit} className="send-btn">
           <IoIosSend />
         </button>
+        {/* <button onClick={handleClear} className="clear-btn">Clear</button> */}
+        </div>
       </div>
     </div>
   );
