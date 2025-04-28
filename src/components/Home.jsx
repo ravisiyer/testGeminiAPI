@@ -59,6 +59,16 @@ export default function Home() {
       handleSubmit();
     }
   };
+  const escapedNewLineToLineBreakTag = (string) => {
+    const x = string.split('\n').map((item, index) => {
+      return (index === 0) ? item : [<br key={index} />, item]
+    })
+    console.log(x)
+    return x;
+    // return string.split('\n').map((item, index) => {
+    //   return (index === 0) ? item : [<br key={index} />, item]
+    // })
+  }
 
   return (
     <div className="chat-container">
@@ -76,7 +86,8 @@ export default function Home() {
         <div className="chat-history">
           {response.map((msg, index) => (
             <div key={index} className={`message ${msg.type}`}>
-              <ReactMarkdown>{msg.message}</ReactMarkdown>
+              {/* {msg.type === "user" ? <p>{msg.message.replace(/\n/g, "<br/>")}</p> : <ReactMarkdown>{msg.message}</ReactMarkdown>} */}
+              {msg.type === "user" ? escapedNewLineToLineBreakTag(msg.message) : <ReactMarkdown>{msg.message}</ReactMarkdown>}
             </div>
           ))}
           {isLoading && <p className="loading-text">Generating response...</p>}
