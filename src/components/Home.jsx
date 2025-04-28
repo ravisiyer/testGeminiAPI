@@ -15,11 +15,11 @@ export default function Home() {
     setUserInput(e.target.value);
   };
 
-  // const handleClear = () => {
-  //   setUserInput('');
-  //   setResponse([]);
-  //   setIsLoading(false);
-  // };
+  const handleClear = () => {
+    setUserInput('');
+    setResponse([]);
+    setIsLoading(false);
+  };
 
   const handleSubmit = async () => {
     if (!userInput.trim()) {
@@ -63,11 +63,8 @@ export default function Home() {
     const x = string.split('\n').map((item, index) => {
       return (index === 0) ? item : [<br key={index} />, item]
     })
-    console.log(x)
+    // console.log(x)
     return x;
-    // return string.split('\n').map((item, index) => {
-    //   return (index === 0) ? item : [<br key={index} />, item]
-    // })
   }
 
   return (
@@ -86,7 +83,6 @@ export default function Home() {
         <div className="chat-history">
           {response.map((msg, index) => (
             <div key={index} className={`message ${msg.type}`}>
-              {/* {msg.type === "user" ? <p>{msg.message.replace(/\n/g, "<br/>")}</p> : <ReactMarkdown>{msg.message}</ReactMarkdown>} */}
               {msg.type === "user" ? escapedNewLineToLineBreakTag(msg.message) : <ReactMarkdown>{msg.message}</ReactMarkdown>}
             </div>
           ))}
@@ -94,6 +90,9 @@ export default function Home() {
         </div>
       )}
 
+      <div className="clear-btn-container">
+                <button onClick={handleClear} className="clear-btn">Clear chat</button>
+      </div>
       <div className="input-container">
         <TextareaAutosize
           type="text"
@@ -109,7 +108,6 @@ export default function Home() {
         <button onClick={handleSubmit} className="send-btn">
           <IoIosSend />
         </button>
-        {/* <button onClick={handleClear} className="clear-btn">Clear</button> */}
         </div>
       </div>
     </div>
