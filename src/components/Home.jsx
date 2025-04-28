@@ -16,9 +16,15 @@ export default function Home() {
   };
 
   const handleClear = () => {
-    setUserInput('');
-    setResponse([]);
-    setIsLoading(false);
+    if (response.length === 0 && userInput === ''){
+      return;
+    }
+    const confirmed = window.confirm('Are you sure you want to clear this chat?');
+    if (confirmed) {
+      setUserInput('');
+      setResponse([]);
+      setIsLoading(false);
+      }
   };
 
   const handleSubmit = async () => {
@@ -83,7 +89,8 @@ export default function Home() {
         <div className="chat-history">
           {response.map((msg, index) => (
             <div key={index} className={`message ${msg.type}`}>
-              {msg.type === "user" ? escapedNewLineToLineBreakTag(msg.message) : <ReactMarkdown>{msg.message}</ReactMarkdown>}
+              {msg.type === "user" ? <p> {escapedNewLineToLineBreakTag(msg.message)} </p>: <ReactMarkdown>{msg.message}</ReactMarkdown>}
+              {/* {msg.type === "user" ? escapedNewLineToLineBreakTag(msg.message) : <ReactMarkdown>{msg.message}</ReactMarkdown>} */}
             </div>
           ))}
           {isLoading && <p className="loading-text">Generating response...</p>}
