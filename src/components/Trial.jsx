@@ -4,17 +4,19 @@ import './trial.css'
 import TextareaAutosize from 'react-textarea-autosize';
 import {isMobile} from 'react-device-detect';
 
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+import { GoogleGenAI } from "@google/genai";
 const key = process.env.REACT_APP_GEMINI_API_KEY
-const genAI = new GoogleGenerativeAI(key);
+const genAI = new GoogleGenAI({ apiKey: key });
 const modelName = process.env.REACT_APP_GEMINI_MODEL_NAME;
 console.log(`Model name: ${modelName}`)
-const model = genAI.getGenerativeModel({ model: modelName });
 
 const generateContent = async (prompt) => {
-    const result = await model.generateContent(prompt);
-    console.log(result.response.text());
-    return result.response.text; // return the response
+    const response = await genAI.models.generateContent({
+      model: modelName,
+      contents: prompt,
+    });
+    console.log(response.text);
+    return response.text; // return the response
 }
 
 function Trial() {
@@ -32,10 +34,11 @@ function Trial() {
       return;
     }
 
+    setResponse('');
     setIsLoading(true);
     try {
       const res = await generateContent(userInput);
-      setResponse(res());
+      setResponse(res);
       setUserInput('');
     } catch (err) {
       console.error("Error generating response:", err);
@@ -82,7 +85,6 @@ function Trial() {
         {isLoading && <p className="loading-text">Generating response...</p>}
         <div className="trial-chat-response">
             <ReactMarkdown>{response}</ReactMarkdown>
-            {/* {isLoading && <p className="loading-text">Generating response...</p>} */}
         </div>
     </div>
   )
