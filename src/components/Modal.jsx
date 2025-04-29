@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
 import './Modal.css'; // Import CSS for styling
 
-const Modal = ({ isOpen, onClose, modelsData, children }) => {
+const Modal = ({ isOpen, onClose, children }) => {
   if (!isOpen) {
     return null;
   }

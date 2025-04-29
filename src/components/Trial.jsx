@@ -5,43 +5,15 @@ import TextareaAutosize from 'react-textarea-autosize';
 import {isMobile} from 'react-device-detect';
 import Modal from './Modal';
 import { GoogleGenAI } from "@google/genai";
-// import { GoogleGenerativeAI } from '@google/genai';
-import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react'
 
 import { ListBox } from 'primereact/listbox';
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 
-// const people = [
-//   { id: 1, name: 'Durward Reynolds' },
-//   { id: 2, name: 'Kenton Towne' },
-//   { id: 3, name: 'Therese Wunsch' },
-//   { id: 4, name: 'Benedict Kessler' },
-//   { id: 5, name: 'Katelyn Rohan' },
-// ]
-
-const cities = [
-    { name: 'New York', code: 'NY' },
-    { name: 'Rome', code: 'RM' },
-    { name: 'London', code: 'LDN' },
-    { name: 'Istanbul', code: 'IST' },
-    { name: 'Paris', code: 'PRS' }
-];
-
 const key = process.env.REACT_APP_GEMINI_API_KEY
 const genAI = new GoogleGenAI({ apiKey: key });
-// const genAI = new GoogleGenerativeAI(key);
+
 // const modelName = process.env.REACT_APP_GEMINI_MODEL_NAME;
 // console.log(`Model name: ${modelName}`)
-
-
-// async function listAvailableModels() {
-//   try {
-//     const modelList = await genAI.listModels();
-//     console.log("Available models:", modelList.models);
-//   } catch (error) {
-//     console.error("Error fetching models:", error);
-//   }
-// }
 
 let modelsData
 async function listAvailableModels() {
@@ -72,7 +44,6 @@ function Trial() {
   const [isLoading, setIsLoading] = useState(false);
   const [modelUsed, setModelUsed] = useState(process.env.REACT_APP_GEMINI_MODEL_NAME);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [selectedPerson, setSelectedPerson] = useState(people[0])
   const [selectedModelName, setSelectedModelName] = useState(null);
 
   const openModal = () => {
@@ -86,7 +57,6 @@ function Trial() {
   const generateContent = async (prompt) => {
     const response = await genAI.models.generateContent({
       model: modelUsed,
-      // model: modelName,
       contents: prompt,
     });
     console.log(response.text);
@@ -131,7 +101,7 @@ function Trial() {
   };
   // console.log (`isMobile = ${isMobile}`)
   let modelsList = [
-    // { name: 'New York', code: 'NY' },
+    // { name: modelname, code: modelname },
   ];
 
   if ((modelsList.length === 0) && modelsData ) {
@@ -147,15 +117,12 @@ function Trial() {
   return (
     <div className="chat-container">
         <h1>Gemini AI API Trial Test</h1> 
-        {/* <h2>Model used: {process.env.REACT_APP_GEMINI_MODEL_NAME}</h2> */}
         <div>
           Name of model being used:&nbsp; 
           <input type="text"
             value={modelUsed}
             onChange={(e)=>setModelUsed(e.target.value)}
-            size="40"
-            // className="chat-input"
-            // disabled = {isLoading ? true : false}
+            size="60"
            />
            <div>
           <span> To change model being used, specify name of model in above field. </span>
@@ -164,65 +131,27 @@ function Trial() {
         </div>
         <div>
           <Modal isOpen={isModalOpen} onClose={closeModal} modelsData={modelsData}>
-          <h2>Available models that support 'generateContent'</h2>
-          {/* <Listbox value={selectedPerson} onChange={setSelectedPerson}>
-            <ListboxButton>{selectedPerson.name}</ListboxButton>
-            <ListboxOptions anchor="bottom">
-              {people.map((person) => (
-                <ListboxOption key={person.id} value={person} className="data-focus:bg-blue-100">
-                  {person.name}
-                </ListboxOption>
-              ))}
-            </ListboxOptions>
-          </Listbox> */}
-          <div>
-            <p>Model being used now: {modelUsed}</p>
-            <p>Model selected in List: {selectedModelName?.name}</p>
-            <p>
-              <button 
-                disabled={selectedModelName?.name && selectedModelName.name !== modelUsed ? false : true}
-                onClick={()=>selectedModelName?.name && setModelUsed(selectedModelName?.name)}>
-                  Set selected model as model to use
-              </button>
-            </p>
-            <div className="models-list">
-              <div className="card flex justify-content-center">  
-                <ListBox value={selectedModelName} onChange={(e) => setSelectedModelName(e.value)}
-                options={modelsList} optionLabel="name" className="w-full md:w-14rem" />
+            <h2>Available models that support 'generateContent'</h2>
+            <div>
+              <p>Model being used now: {modelUsed}</p>
+              <p>Model selected in List: {selectedModelName?.name}</p>
+              <p>
+                <button 
+                  disabled={selectedModelName?.name && selectedModelName.name !== modelUsed ? false : true}
+                  onClick={()=>selectedModelName?.name && setModelUsed(selectedModelName?.name)}>
+                    Set selected model as model to use
+                </button>
+              </p>
+              <div className="models-list">
+                <div className="card flex justify-content-center">  
+                  <ListBox value={selectedModelName} onChange={(e) => setSelectedModelName(e.value)}
+                  options={modelsList} optionLabel="name" className="w-full md:w-14rem" />
+                </div>
               </div>
             </div>
-          </div>
-          {/* <div className="card flex justify-content-center">  
-            <ListBox value={selectedCity} onChange={(e) => setSelectedCity(e.value)}
-             options={cities} optionLabel="name" className="w-full md:w-14rem" />
-          </div> */}
-
-            {/* {modelsData ? 
-              <ul className="models-list">
-                {modelsData.models.map((model) => {
-                  return (model.supportedGenerationMethods.includes('generateContent') ?
-                  <li key={model.name}>Name: {model.name},&nbsp;Display Name: {model.displayName}</li>
-                  :
-                  null )
-                })}
-              </ul>
-              : null 
-            } */}
-            {/* {modelsData ? 
-              <ul className="models-list">
-                {modelsData.models.map((model) => {
-                  return (model.supportedGenerationMethods.includes('generateContent') ?
-                  <li key={model.name}>Name: {model.name},&nbsp;Display Name: {model.displayName}</li>
-                  :
-                  null )
-                })}
-              </ul>
-              : null 
-            } */}
             <button onClick={closeModal}>Close</button>
           </Modal>
         </div>
-        {/* <h2>Model used: {process.env.REACT_APP_GEMINI_MODEL_NAME}</h2> */}
         <div className="trial-input-container">
             <TextareaAutosize
             type="text"
@@ -244,19 +173,6 @@ function Trial() {
         <div className="trial-chat-response">
             <ReactMarkdown>{response}</ReactMarkdown>
         </div>
-          {/* {modelsData ? 
-            <div>
-            <h3>Available models that support 'generateContent'</h3>
-            <ul>
-              {modelsData.models.map((model) => {
-                return (model.supportedGenerationMethods.includes('generateContent') ?
-                <li key={model.name}>Name: {model.name},&nbsp;Display Name: {model.displayName}</li>
-                :
-                null )
-              })}
-            </ul>
-          </div>
-          : null } */}
     </div>
   )
 }
