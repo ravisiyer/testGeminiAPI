@@ -88,7 +88,7 @@ function Trial() {
       setUserInput('');
     } catch (err) {
       console.error("Error generating response:", err);
-      setResponse("Failed to generate response");
+      setResponse(`Failed to generate response. Error message received from Gemini: ${err?.message}`);
     } finally {
       setIsLoading(false);
     }
@@ -112,7 +112,7 @@ function Trial() {
         <h1>Gemini AI API Trial Test</h1> 
         {/* <h2>Model used: {process.env.REACT_APP_GEMINI_MODEL_NAME}</h2> */}
         <div>
-          Model used:&nbsp; 
+          Name of model being used:&nbsp; 
           <input type="text"
             value={modelUsed}
             onChange={(e)=>setModelUsed(e.target.value)}
@@ -120,13 +120,14 @@ function Trial() {
             // className="chat-input"
             // disabled = {isLoading ? true : false}
            />
+           <div>
+          <span> To change model being used, specify name of model in above field. </span>
+          <button onClick={openModal} style={{marginLeft: '10px'}}>List of available models</button>
+          </div>
         </div>
         <div>
-          <button onClick={openModal}>Open Modal</button>
           <Modal isOpen={isModalOpen} onClose={closeModal} modelsData={modelsData}>
-          <>
           <h2>Available models that support 'generateContent'</h2>
-            {/* <p>This is the modal content.</p> */}
             {modelsData ? 
               <ul className="models-list">
                 {modelsData.models.map((model) => {
@@ -139,7 +140,6 @@ function Trial() {
               : null 
             }
             <button onClick={closeModal}>Close</button>
-            </>
           </Modal>
         </div>
         {/* <h2>Model used: {process.env.REACT_APP_GEMINI_MODEL_NAME}</h2> */}
@@ -164,10 +164,9 @@ function Trial() {
         <div className="trial-chat-response">
             <ReactMarkdown>{response}</ReactMarkdown>
         </div>
-          {modelsData ? 
+          {/* {modelsData ? 
             <div>
             <h3>Available models that support 'generateContent'</h3>
-            {/* <p>modelsData.models.length = {modelsData.models.length}</p> */}
             <ul>
               {modelsData.models.map((model) => {
                 return (model.supportedGenerationMethods.includes('generateContent') ?
@@ -177,7 +176,7 @@ function Trial() {
               })}
             </ul>
           </div>
-          : null }
+          : null } */}
     </div>
   )
 }
