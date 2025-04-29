@@ -5,24 +5,61 @@ import TextareaAutosize from 'react-textarea-autosize';
 import {isMobile} from 'react-device-detect';
 
 import { GoogleGenAI } from "@google/genai";
+// import { GoogleGenerativeAI } from '@google/genai';
 const key = process.env.REACT_APP_GEMINI_API_KEY
 const genAI = new GoogleGenAI({ apiKey: key });
-const modelName = process.env.REACT_APP_GEMINI_MODEL_NAME;
-console.log(`Model name: ${modelName}`)
+// const genAI = new GoogleGenerativeAI(key);
+// const modelName = process.env.REACT_APP_GEMINI_MODEL_NAME;
+// console.log(`Model name: ${modelName}`)
 
-const generateContent = async (prompt) => {
-    const response = await genAI.models.generateContent({
-      model: modelName,
-      contents: prompt,
-    });
-    console.log(response.text);
-    return response.text; // return the response
+
+// async function listAvailableModels() {
+//   try {
+//     const modelList = await genAI.listModels();
+//     console.log("Available models:", modelList.models);
+//   } catch (error) {
+//     console.error("Error fetching models:", error);
+//   }
+// }
+
+let modelsData
+async function listAvailableModels() {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models?key=${key}`
+  console.log(`listAvailableModels url: ${url}`)
+
+  let data;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      console.error(`HTTP error! status: ${response.status}`);
+    }
+
+    data = await response.json();
+  } catch (error) {
+    console.error("Fetching data failed:", error);
+  }
+  console.log("Available models:", data);
+  modelsData = data
+  return data;
 }
+
+listAvailableModels();
 
 function Trial() {
   const [userInput, setUserInput] = useState('');
   const [response, setResponse] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [modelUsed, setModelUsed] = useState(process.env.REACT_APP_GEMINI_MODEL_NAME);
+
+  const generateContent = async (prompt) => {
+    const response = await genAI.models.generateContent({
+      model: modelUsed,
+      // model: modelName,
+      contents: prompt,
+    });
+    console.log(response.text);
+    return response.text; // return the response
+  }
 
   const handleUserInput = (e) => {
     setUserInput(e.target.value);
@@ -60,11 +97,22 @@ function Trial() {
       handleSubmit();
     }
   };
-  console.log (`isMobile = ${isMobile}`)
+  // console.log (`isMobile = ${isMobile}`)
   return (
     <div className="chat-container">
         <h1>Gemini AI API Trial Test</h1> 
-        <h2>Model used: {process.env.REACT_APP_GEMINI_MODEL_NAME}</h2>
+        {/* <h2>Model used: {process.env.REACT_APP_GEMINI_MODEL_NAME}</h2> */}
+        <div>
+          Model used:&nbsp; 
+          <input type="text"
+            value={modelUsed}
+            onChange={(e)=>setModelUsed(e.target.value)}
+            size="40"
+            // className="chat-input"
+            // disabled = {isLoading ? true : false}
+           />
+        </div>
+        {/* <h2>Model used: {process.env.REACT_APP_GEMINI_MODEL_NAME}</h2> */}
         <div className="trial-input-container">
             <TextareaAutosize
             type="text"
@@ -86,6 +134,20 @@ function Trial() {
         <div className="trial-chat-response">
             <ReactMarkdown>{response}</ReactMarkdown>
         </div>
+          {modelsData ? 
+            <div>
+            <h3>Available models that support 'generateContent'</h3>
+            {/* <p>modelsData.models.length = {modelsData.models.length}</p> */}
+            <ul>
+              {modelsData.models.map((model) => {
+                return (model.supportedGenerationMethods.includes('generateContent') ?
+                <li key={model.name}>Name: {model.name},&nbsp;Display Name: {model.displayName}</li>
+                :
+                null )
+              })}
+            </ul>
+          </div>
+          : null }
     </div>
   )
 }
