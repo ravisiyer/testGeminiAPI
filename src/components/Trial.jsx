@@ -6,6 +6,27 @@ import {isMobile} from 'react-device-detect';
 import Modal from './Modal';
 import { GoogleGenAI } from "@google/genai";
 // import { GoogleGenerativeAI } from '@google/genai';
+import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react'
+
+import { ListBox } from 'primereact/listbox';
+import "primereact/resources/themes/lara-light-cyan/theme.css";
+
+// const people = [
+//   { id: 1, name: 'Durward Reynolds' },
+//   { id: 2, name: 'Kenton Towne' },
+//   { id: 3, name: 'Therese Wunsch' },
+//   { id: 4, name: 'Benedict Kessler' },
+//   { id: 5, name: 'Katelyn Rohan' },
+// ]
+
+const cities = [
+    { name: 'New York', code: 'NY' },
+    { name: 'Rome', code: 'RM' },
+    { name: 'London', code: 'LDN' },
+    { name: 'Istanbul', code: 'IST' },
+    { name: 'Paris', code: 'PRS' }
+];
+
 const key = process.env.REACT_APP_GEMINI_API_KEY
 const genAI = new GoogleGenAI({ apiKey: key });
 // const genAI = new GoogleGenerativeAI(key);
@@ -51,6 +72,8 @@ function Trial() {
   const [isLoading, setIsLoading] = useState(false);
   const [modelUsed, setModelUsed] = useState(process.env.REACT_APP_GEMINI_MODEL_NAME);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [selectedPerson, setSelectedPerson] = useState(people[0])
+  const [selectedModelName, setSelectedModelName] = useState(null);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -107,6 +130,20 @@ function Trial() {
     }
   };
   // console.log (`isMobile = ${isMobile}`)
+  let modelsList = [
+    // { name: 'New York', code: 'NY' },
+  ];
+
+  if ((modelsList.length === 0) && modelsData ) {
+      modelsData.models.map((model) => {
+        if (model.supportedGenerationMethods.includes('generateContent')) {
+          modelsList.push({name: model.name, code: model.name})
+        }
+        return null
+      })
+  }
+  
+
   return (
     <div className="chat-container">
         <h1>Gemini AI API Trial Test</h1> 
@@ -128,7 +165,39 @@ function Trial() {
         <div>
           <Modal isOpen={isModalOpen} onClose={closeModal} modelsData={modelsData}>
           <h2>Available models that support 'generateContent'</h2>
-            {modelsData ? 
+          {/* <Listbox value={selectedPerson} onChange={setSelectedPerson}>
+            <ListboxButton>{selectedPerson.name}</ListboxButton>
+            <ListboxOptions anchor="bottom">
+              {people.map((person) => (
+                <ListboxOption key={person.id} value={person} className="data-focus:bg-blue-100">
+                  {person.name}
+                </ListboxOption>
+              ))}
+            </ListboxOptions>
+          </Listbox> */}
+          <div>
+            <p>Model being used now: {modelUsed}</p>
+            <p>Model selected in List: {selectedModelName?.name}</p>
+            <p>
+              <button 
+                disabled={selectedModelName?.name && selectedModelName.name !== modelUsed ? false : true}
+                onClick={()=>selectedModelName?.name && setModelUsed(selectedModelName?.name)}>
+                  Set selected model as model to use
+              </button>
+            </p>
+            <div className="models-list">
+              <div className="card flex justify-content-center">  
+                <ListBox value={selectedModelName} onChange={(e) => setSelectedModelName(e.value)}
+                options={modelsList} optionLabel="name" className="w-full md:w-14rem" />
+              </div>
+            </div>
+          </div>
+          {/* <div className="card flex justify-content-center">  
+            <ListBox value={selectedCity} onChange={(e) => setSelectedCity(e.value)}
+             options={cities} optionLabel="name" className="w-full md:w-14rem" />
+          </div> */}
+
+            {/* {modelsData ? 
               <ul className="models-list">
                 {modelsData.models.map((model) => {
                   return (model.supportedGenerationMethods.includes('generateContent') ?
@@ -138,7 +207,18 @@ function Trial() {
                 })}
               </ul>
               : null 
-            }
+            } */}
+            {/* {modelsData ? 
+              <ul className="models-list">
+                {modelsData.models.map((model) => {
+                  return (model.supportedGenerationMethods.includes('generateContent') ?
+                  <li key={model.name}>Name: {model.name},&nbsp;Display Name: {model.displayName}</li>
+                  :
+                  null )
+                })}
+              </ul>
+              : null 
+            } */}
             <button onClick={closeModal}>Close</button>
           </Modal>
         </div>
