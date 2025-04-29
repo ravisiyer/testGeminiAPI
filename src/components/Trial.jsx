@@ -115,8 +115,8 @@ function Trial() {
   
 
   return (
-    <div className="chat-container">
-        <h1>Gemini AI API Trial Test</h1> 
+    <div className="trial-chat-container">
+        <h2>Gemini AI API Trial Test</h2> 
         <div>
           Name of model being used:&nbsp; 
           <input type="text"
@@ -159,7 +159,7 @@ function Trial() {
             onChange={handleUserInput}
             onKeyDown={isMobile ? undefined : handleKeyPress}
             placeholder="Type your message here..."
-            className="chat-input"
+            className="trial-input"
             disabled = {isLoading ? true : false}
             maxRows={10}
             />
@@ -171,7 +171,9 @@ function Trial() {
         </div>
         {isLoading && <p className="loading-text">Generating response...</p>}
         <div className="trial-chat-response">
+          <div>
             <ReactMarkdown>{response}</ReactMarkdown>
+          </div>
         </div>
     </div>
   )
