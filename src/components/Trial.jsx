@@ -3,7 +3,7 @@ import ReactMarkdown from 'react-markdown'; // to render markdown responses
 import './trial.css'
 import TextareaAutosize from 'react-textarea-autosize';
 import {isMobile} from 'react-device-detect';
-
+import Modal from './Modal';
 import { GoogleGenAI } from "@google/genai";
 // import { GoogleGenerativeAI } from '@google/genai';
 const key = process.env.REACT_APP_GEMINI_API_KEY
@@ -50,6 +50,15 @@ function Trial() {
   const [response, setResponse] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [modelUsed, setModelUsed] = useState(process.env.REACT_APP_GEMINI_MODEL_NAME);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const generateContent = async (prompt) => {
     const response = await genAI.models.generateContent({
@@ -111,6 +120,27 @@ function Trial() {
             // className="chat-input"
             // disabled = {isLoading ? true : false}
            />
+        </div>
+        <div>
+          <button onClick={openModal}>Open Modal</button>
+          <Modal isOpen={isModalOpen} onClose={closeModal} modelsData={modelsData}>
+          <>
+          <h2>Available models that support 'generateContent'</h2>
+            {/* <p>This is the modal content.</p> */}
+            {modelsData ? 
+              <ul className="models-list">
+                {modelsData.models.map((model) => {
+                  return (model.supportedGenerationMethods.includes('generateContent') ?
+                  <li key={model.name}>Name: {model.name},&nbsp;Display Name: {model.displayName}</li>
+                  :
+                  null )
+                })}
+              </ul>
+              : null 
+            }
+            <button onClick={closeModal}>Close</button>
+            </>
+          </Modal>
         </div>
         {/* <h2>Model used: {process.env.REACT_APP_GEMINI_MODEL_NAME}</h2> */}
         <div className="trial-input-container">

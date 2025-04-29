@@ -95,3 +95,12 @@ h2{
   color: transparent;
   letter-spacing: 2px;
 }
+
+.models-list {
+  flex: 1; 
+  overflow-y: auto;
+  max-height: 60vh;
+  /* max-height: 80%; */
+  /* margin-bottom: 20px;
+  padding-bottom: 40px;  */
+}

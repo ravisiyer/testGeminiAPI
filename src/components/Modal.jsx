@@ -1,0 +1,21 @@
+import React, { useState } from 'react';
+import './Modal.css'; // Import CSS for styling
+
+const Modal = ({ isOpen, onClose, modelsData, children }) => {
+  if (!isOpen) {
+    return null;
+  }
+
+  return (
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <button className="modal-close" onClick={onClose}>
+          &times;
+        </button>
+        {children}
+      </div>
+    </div>
+  );
+};
+
+export default Modal;
