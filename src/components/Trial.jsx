@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ReactMarkdown from 'react-markdown'; // to render markdown responses
 import './trial.css'
 import TextareaAutosize from 'react-textarea-autosize';
@@ -45,6 +45,17 @@ function Trial() {
   const [modelUsed, setModelUsed] = useState(process.env.REACT_APP_GEMINI_MODEL_NAME);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedModelName, setSelectedModelName] = useState(null);
+
+  const [modelUsedInputWidth, setModelUsedInputWidth] = useState('auto');
+  const modelUsedInputRef = useRef(null);
+  const measureRef = useRef(null);
+
+  useEffect(() => {
+    if (!measureRef.current) return;
+    measureRef.current.textContent = modelUsed;
+    // setModelUsedInputWidth(measureRef.current.offsetWidth + 2); // Add some extra space
+    setModelUsedInputWidth(measureRef.current.offsetWidth + 8); // Add some extra space
+  }, [modelUsed]);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -120,11 +131,32 @@ function Trial() {
         <h2>Gemini AI API Trial Test</h2> 
         <div>
           Name of model being used:&nbsp; 
-          <input type="text"
+          {/* <input className="model-used-input" type="text"
             value={modelUsed}
             onChange={(e)=>setModelUsed(e.target.value)}
-            size="60"
-           />
+            // size="60"
+           /> */}
+          <div style={{ display: 'inline-block' }}>
+            <span
+              style={{
+                position: 'absolute',
+                whiteSpace: 'nowrap',
+                visibility: 'hidden',
+                font: modelUsedInputRef.current ? getComputedStyle(modelUsedInputRef.current).font : null,
+              }}
+              ref={measureRef}
+            >
+              {modelUsed}
+            </span>
+            <input
+              type="text"
+              value={modelUsed}
+              onChange={(e) => setModelUsed(e.target.value)}
+              style={{ width: modelUsedInputWidth, minWidth: '10px' }}
+              ref={modelUsedInputRef}
+            />
+          </div>
+
            <div>
           <span> To change model being used, specify name of model in above field. </span>
           <button onClick={openModal} style={{marginLeft: '10px'}}>List of available models</button>
