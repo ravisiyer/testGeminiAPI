@@ -132,25 +132,31 @@ function Trial() {
         </div>
         <div>
           <Modal isOpen={isModalOpen} onClose={closeModal} modelsData={modelsData}>
-            <h2>Available models that support 'generateContent'</h2>
-            <div>
-              <p>Model being used now: {modelUsed}</p>
-              <p>Model selected in List: {selectedModelName?.name}</p>
-              <p>
-                <button 
-                  disabled={selectedModelName?.name && selectedModelName.name !== modelUsed ? false : true}
-                  onClick={()=>selectedModelName?.name && setModelUsed(selectedModelName?.name)}>
-                    Set selected model as model to use
-                </button>
-              </p>
-              <div className="models-list">
-                <div className="card flex justify-content-center">  
-                  <ListBox value={selectedModelName} onChange={(e) => setSelectedModelName(e.value)}
-                  options={modelsList} optionLabel="name" className="w-full md:w-14rem" />
+            <div className="models-list-content">
+              <div className="models-list-header">
+                <h2>Available models that support 'generateContent'</h2>
+                <div>
+                  <p>Model being used now: {modelUsed}</p>
+                  <p>Model selected in List: {selectedModelName?.name}</p>
+                  <p>
+                    <button 
+                      disabled={selectedModelName?.name && selectedModelName.name !== modelUsed ? false : true}
+                      onClick={()=>selectedModelName?.name && setModelUsed(selectedModelName?.name)}>
+                        Set selected model as model to use
+                    </button>
+                  </p>
                 </div>
               </div>
+              <div className="models-list">
+                  <div className="card flex justify-content-center">  
+                    <ListBox value={selectedModelName} onChange={(e) => setSelectedModelName(e.value)}
+                    options={modelsList} optionLabel="name" className="w-full md:w-14rem" />
+                  </div>
+              </div>
+              <div className="models-list-close">
+                <button onClick={closeModal}>Close</button>
+              </div>
             </div>
-            <button onClick={closeModal}>Close</button>
           </Modal>
         </div>
         <div className="trial-input-container">

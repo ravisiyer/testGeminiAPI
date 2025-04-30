@@ -20,6 +20,7 @@
     width: 80%;
     max-width: 600px;
     position: relative;
+    max-height: 100%
   }
   
   .modal-close {
