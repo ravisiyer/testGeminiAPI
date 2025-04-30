@@ -8,6 +8,7 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    max-height: 100vh;
     /* height: 90vh;  */
     margin: 0 auto;
     padding: 20px;
@@ -16,7 +17,11 @@ body{
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
 }
-  
+
+.trial-header-container {
+  flex-grow: 0;
+}
+
 .trial-input-container {
   display: flex;
   align-items: center;
@@ -59,26 +64,11 @@ body{
 
 .trial-chat-response {
   display: flex;
+  flex-grow: 1;
   /* flex: 1;  */
     overflow-y: auto;
-    /* overflow: scroll; */
-    max-height: 60vh;
-    /* overflow-y: scroll; */
-    /* max-height: 80%; */
-    /* margin-bottom: 20px;
-    padding-bottom: 40px;  */
+    /* max-height: 60vh; */
 }
-  
-  
-
-/* h1{
-    text-align: center;
-    font-family: 'Poppins';
-    background: linear-gradient(to right, #4BC0C8, #C779D0, #FEAC5E); 
-    background-clip: text;
-    color: transparent;
-    letter-spacing: 2px;
-} */
 
 h2{
   text-align: center;

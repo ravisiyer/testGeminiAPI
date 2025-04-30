@@ -116,6 +116,7 @@ function Trial() {
 
   return (
     <div className="trial-chat-container">
+      <div className="trial-header-container">
         <h2>Gemini AI API Trial Test</h2> 
         <div>
           Name of model being used:&nbsp; 
@@ -153,23 +154,24 @@ function Trial() {
           </Modal>
         </div>
         <div className="trial-input-container">
-            <TextareaAutosize
-            type="text"
-            value={userInput}
-            onChange={handleUserInput}
-            onKeyDown={isMobile ? undefined : handleKeyPress}
-            placeholder="Type your message here..."
-            className="trial-input"
-            disabled = {isLoading ? true : false}
-            maxRows={10}
-            />
-            <div>
-            <button onClick={handleSubmit} className="send-btn">
-                Send
-            </button>
-            </div>
+          <TextareaAutosize
+          type="text"
+          value={userInput}
+          onChange={handleUserInput}
+          onKeyDown={isMobile ? undefined : handleKeyPress}
+          placeholder="Type your message here..."
+          className="trial-input"
+          disabled = {isLoading ? true : false}
+          maxRows={10}
+          />
+          <div>
+          <button onClick={handleSubmit} className="send-btn">
+              Send
+          </button>
+          </div>
         </div>
         {isLoading && <p className="loading-text">Generating response...</p>}
+      </div>
         <div className="trial-chat-response">
           <div>
             <ReactMarkdown>{response}</ReactMarkdown>
