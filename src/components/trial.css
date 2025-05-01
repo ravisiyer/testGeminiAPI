@@ -10,6 +10,7 @@ body{
     justify-content: flex-start;
     max-height: 100vh;
     /* height: 90vh;  */
+    max-width: 1000px;
     margin: 0 auto;
     padding: 20px;
     background-color: #f0f0f0;

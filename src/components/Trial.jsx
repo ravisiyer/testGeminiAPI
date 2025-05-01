@@ -40,6 +40,7 @@ listAvailableModels();
 
 function Trial() {
   const [userInput, setUserInput] = useState('');
+  const [youSaid, setYouSaid] = useState('');
   const [response, setResponse] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [modelUsed, setModelUsed] = useState(process.env.REACT_APP_GEMINI_MODEL_NAME);
@@ -86,6 +87,7 @@ function Trial() {
 
     setResponse('');
     setIsLoading(true);
+    setYouSaid(userInput)
     try {
       const res = await generateContent(userInput);
       setResponse(res);
@@ -131,11 +133,6 @@ function Trial() {
         <h2>Gemini AI API Trial Test</h2> 
         <div>
           Name of model being used:&nbsp; 
-          {/* <input className="model-used-input" type="text"
-            value={modelUsed}
-            onChange={(e)=>setModelUsed(e.target.value)}
-            // size="60"
-           /> */}
           <div style={{ display: 'inline-block' }}>
             <span
               style={{
@@ -208,6 +205,7 @@ function Trial() {
           </button>
           </div>
         </div>
+        {youSaid && <p>You said: {youSaid}</p>}
         {isLoading && <p className="loading-text">Generating response...</p>}
       </div>
         <div className="trial-chat-response">
