@@ -165,8 +165,18 @@ function Trial() {
               <div className="models-list-header">
                 <h3>Models with 'generateContent'</h3>
                 <div>
-                  <p className="modal-p">Model used now: {modelUsed}</p>
-                  <p className="modal-p">Model selected: {selectedModelName?.name}</p>
+                  {/* <p className="modal-p">Model used now: {modelUsed}</p>
+                  <p className="modal-p">Model selected: {selectedModelName?.name}</p> */}
+                  <div className="model-select-grid">
+                    <span class="model-select-label">Model used now:</span>
+                    <div>
+                    <span class="model-select-value">{modelUsed}</span>
+                    </div>
+                    <span class="model-select-label">Model selected:</span>
+                    <div>
+                    <span class="model-select-value">{selectedModelName?.name}</span>
+                    </div>
+                  </div>
                   <p className="modal-p">
                     <button className="set-selected-model-btn"
                       disabled={selectedModelName?.name && selectedModelName.name !== modelUsed ? false : true}
