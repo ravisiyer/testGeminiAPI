@@ -95,6 +95,7 @@ body{
   /* margin-left: 10px; */
   padding: 10px;
   border-radius: 5%;
+  margin: 0px auto 10px auto;
 }
 
 .set-selected-model-btn:hover {
@@ -191,8 +192,8 @@ h3{
 
 .model-select-grid {
   display: grid;
-  grid-template-columns: 130px 1fr; /* label column fixed, value column flexible */
-  gap: 16px 2px; /* row-gap, column-gap */
+  grid-template-columns: 1fr; 
+  gap: 10px 2px; /* row-gap, column-gap */
   /* max-width: 450px; */
   margin: 10px auto;
 }
@@ -200,17 +201,24 @@ h3{
 .model-select-label {
   text-align: left;
   align-self: center;
+  font-size: 16px;
 }
 
 .model-select-value {
   text-align: left;
-  padding: 5px;
+  padding: 2px;
   font-size: 16px;
   background-color: #6431c1;
   color: white;
   /* border-radius: 5%; */
   width: auto;
   height: auto;
+}
+
+@media only screen and (min-width: 768px) {
+  .model-select-grid {
+    grid-template-columns: 130px 1fr; /* label column fixed, value column flexible */
+  }
 }
 
 /* @media only screen and (min-width: 768px) {

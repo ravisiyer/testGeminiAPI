@@ -177,14 +177,15 @@ function Trial() {
                     <span class="model-select-value">{selectedModelName?.name}</span>
                     </div>
                   </div>
-                  <p className="modal-p">
+                  {/* <p className="modal-p"> */}
                     <button className="set-selected-model-btn"
                       disabled={selectedModelName?.name && selectedModelName.name !== modelUsed ? false : true}
                       onClick={()=>selectedModelName?.name && setModelUsed(selectedModelName?.name)}>
                         Set selected model as model to use
                     </button>
-                  </p>
+                  {/* </p> */}
                 </div>
+              <p style={{margin: "0 auto 10px auto"}}>Available models supporting 'generateContent':</p>      
               </div>
               <div className="models-list">
                   <div className="card flex justify-content-center">  
