@@ -146,6 +146,7 @@ function Trial() {
               {modelUsed}
             </span>
             <input
+              className="model-used-input"
               type="text"
               id="modelUsedInput"
               value={modelUsed}
@@ -162,12 +163,12 @@ function Trial() {
           <Modal isOpen={isModalOpen} onClose={closeModal} modelsData={modelsData}>
             <div className="models-list-content">
               <div className="models-list-header">
-                <h2>Available models that support 'generateContent'</h2>
+                <h3>Models with 'generateContent'</h3>
                 <div>
-                  <p className="modal-p">Model being used now: {modelUsed}</p>
-                  <p className="modal-p">Model selected in list: {selectedModelName?.name}</p>
+                  <p className="modal-p">Model used now: {modelUsed}</p>
+                  <p className="modal-p">Model selected: {selectedModelName?.name}</p>
                   <p className="modal-p">
-                    <button 
+                    <button className="set-selected-model-btn"
                       disabled={selectedModelName?.name && selectedModelName.name !== modelUsed ? false : true}
                       onClick={()=>selectedModelName?.name && setModelUsed(selectedModelName?.name)}>
                         Set selected model as model to use
