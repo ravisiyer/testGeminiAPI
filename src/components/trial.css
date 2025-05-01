@@ -98,6 +98,12 @@ body{
   margin: 0px auto 10px auto;
 }
 
+.set-selected-model-btn:disabled {
+  background-color: #ccc; /* Light gray */
+  color: #666;            /* Dimmed text */
+  cursor: not-allowed;    /* Optional visual cue */
+}
+
 .set-selected-model-btn:hover {
   background-color: #0056b3;
 }
@@ -206,13 +212,17 @@ h3{
 
 .model-select-value {
   text-align: left;
-  padding: 2px;
+  /* padding: 2px; */
   font-size: 16px;
   background-color: #6431c1;
   color: white;
   /* border-radius: 5%; */
   width: auto;
   height: auto;
+}
+
+.model-select-value:not(:empty) {
+  padding: 2px;
 }
 
 @media only screen and (min-width: 768px) {

@@ -18,7 +18,8 @@ const genAI = new GoogleGenAI({ apiKey: key });
 let modelsData
 async function listAvailableModels() {
   const url = `https://generativelanguage.googleapis.com/v1beta/models?key=${key}`
-  console.log(`listAvailableModels url: ${url}`)
+  // console.log(`listAvailableModels url: ${url}`) Exposes APIkey on browser console!
+  // ... So use only while debugging
 
   let data;
   try {
@@ -130,7 +131,7 @@ function Trial() {
   return (
     <div className="trial-chat-container">
       <div className="trial-header-container">
-        <h2>Gemini AI API Trial 2</h2> 
+        <h2>Gemini AI API 2nd Trial</h2> 
         <div className="models-used-container">
           <div style={{ display: 'inline-block' }}>
             <label htmlFor="modelUsedInput">Model Used: </label>
@@ -168,13 +169,13 @@ function Trial() {
                   {/* <p className="modal-p">Model used now: {modelUsed}</p>
                   <p className="modal-p">Model selected: {selectedModelName?.name}</p> */}
                   <div className="model-select-grid">
-                    <span class="model-select-label">Model used now:</span>
+                    <span className="model-select-label">Model used now:</span>
                     <div>
-                    <span class="model-select-value">{modelUsed}</span>
+                    <span className="model-select-value">{modelUsed}</span>
                     </div>
-                    <span class="model-select-label">Model selected:</span>
+                    <span className="model-select-label">Model selected:</span>
                     <div>
-                    <span class="model-select-value">{selectedModelName?.name}</span>
+                    <span className="model-select-value">{selectedModelName?.name}</span>
                     </div>
                   </div>
                   {/* <p className="modal-p"> */}
