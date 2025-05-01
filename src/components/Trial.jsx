@@ -130,10 +130,10 @@ function Trial() {
   return (
     <div className="trial-chat-container">
       <div className="trial-header-container">
-        <h2>Gemini AI API Trial Test</h2> 
-        <div>
-          Name of model being used:&nbsp; 
+        <h2>Gemini AI API Trial 2</h2> 
+        <div className="models-used-container">
           <div style={{ display: 'inline-block' }}>
+            <label htmlFor="modelUsedInput">Model Used: </label>
             <span
               style={{
                 position: 'absolute',
@@ -147,16 +147,15 @@ function Trial() {
             </span>
             <input
               type="text"
+              id="modelUsedInput"
               value={modelUsed}
               onChange={(e) => setModelUsed(e.target.value)}
               style={{ width: modelUsedInputWidth, minWidth: '10px' }}
               ref={modelUsedInputRef}
             />
           </div>
-
-           <div>
-          <span> To change model being used, specify name of model in above field. </span>
-          <button onClick={openModal} style={{marginLeft: '10px'}}>List of available models</button>
+          <div>
+          <button className="list-models-btn" onClick={openModal}>List</button>
           </div>
         </div>
         <div>
@@ -165,9 +164,9 @@ function Trial() {
               <div className="models-list-header">
                 <h2>Available models that support 'generateContent'</h2>
                 <div>
-                  <p>Model being used now: {modelUsed}</p>
-                  <p>Model selected in List: {selectedModelName?.name}</p>
-                  <p>
+                  <p className="modal-p">Model being used now: {modelUsed}</p>
+                  <p className="modal-p">Model selected in list: {selectedModelName?.name}</p>
+                  <p className="modal-p">
                     <button 
                       disabled={selectedModelName?.name && selectedModelName.name !== modelUsed ? false : true}
                       onClick={()=>selectedModelName?.name && setModelUsed(selectedModelName?.name)}>
@@ -205,14 +204,17 @@ function Trial() {
           </button>
           </div>
         </div>
-        {youSaid && <p>You said: {youSaid}</p>}
+        {youSaid && <p className="message message-user">{youSaid}</p>}
         {isLoading && <p className="loading-text">Generating response...</p>}
       </div>
-        <div className="trial-chat-response">
-          <div>
-            <ReactMarkdown>{response}</ReactMarkdown>
-          </div>
+      <div className="trial-chat-response">
+        { !isLoading && response ?
+        <div className="message message-bot">
+          <ReactMarkdown>{response}</ReactMarkdown>
         </div>
+        : null
+        }
+      </div>
     </div>
   )
 }

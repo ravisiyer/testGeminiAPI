@@ -14,7 +14,7 @@
   
   .modal-content {
     background-color: white;
-    padding: 20px;
+    padding: 10px;
     border-radius: 8px;
     /* width: 50%; */
     width: 80%;
@@ -25,10 +25,21 @@
   
   .modal-close {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 5px;
+    right: 5px;
     font-size: 20px;
     cursor: pointer;
     border: none;
     background: none;
+  }
+
+  .modal-p {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  /* Target listbox items */
+  .p-listbox .p-listbox-list .p-listbox-item {
+    padding: 0.25rem 0.5rem; /* Adjust these values as needed */
+    line-height: 1.2;         /* Optional: reduce line height */
   }
