@@ -2,13 +2,21 @@
 
 body{
     overflow: hidden;
+    /* background-color: gray; */
+    /* background-color: white; */
+    background-color: #f0f0f0;
   }
 
 .trial-chat-container {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    max-height: 100vh;
+    /* On Samsung M21 Android phone Chrome bottom part of response cannot be scrolled down to.
+    This issue cannot be seen in PC Chrome browser in Mobile mode in Inspect. 
+    To resolve Samsung M21 phone issue using lesser than 100vh for mobile and 100vh for greater than mobile width. */
+    /* max-height: 100vh; */
+    max-height: 95vh;
+    /* max-height: 100vh; */
     /* height: 90vh;  */
     /* max-width: 1000px; */
     max-width: 800px;
@@ -18,7 +26,7 @@ body{
     /* padding: 20px; */
     background-color: #f0f0f0;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); */
     overflow-y: auto;
 }
 
@@ -82,8 +90,16 @@ body{
   margin-left: 10px;
 }
 
-.list-models-btn:hover {
+.list-models-btn:hover:enabled {
   background-color: #0056b3;
+}
+
+.list-models-btn:disabled {
+  background-color: #ccc; /* Light gray */
+  color: #666;            /* Dimmed text */
+  cursor: default;
+  /* cursor: not-allowed;  */
+     /* Optional visual cue */
 }
 
 .set-selected-model-btn {
@@ -101,10 +117,12 @@ body{
 .set-selected-model-btn:disabled {
   background-color: #ccc; /* Light gray */
   color: #666;            /* Dimmed text */
-  cursor: not-allowed;    /* Optional visual cue */
+  cursor: default;
+  /* cursor: not-allowed; */
+      /* Optional visual cue */
 }
 
-.set-selected-model-btn:hover {
+.set-selected-model-btn:hover:enabled {
   background-color: #0056b3;
 }
 
@@ -117,9 +135,9 @@ body{
   display: flex;
   flex-grow: 1;
   /* flex: 1;  */
-    overflow-y: auto;
-    /* max-height: 60vh; */
-    background-color: pink;
+  overflow-y: auto;
+  /* max-height: 60vh; */
+  background-color: pink;
   }
 
 .message {
@@ -145,6 +163,7 @@ body{
   color: #333;
   padding-left: 20px;
   padding-right:20px;
+  padding-bottom: 5px;  /* Does not seem to have any effect. */
   /* margin-right: auto; */
 }
 
@@ -228,6 +247,9 @@ h3{
 @media only screen and (min-width: 768px) {
   .model-select-grid {
     grid-template-columns: 130px 1fr; /* label column fixed, value column flexible */
+  }
+  .trial-chat-container {
+    max-height: 100vh;
   }
 }
 

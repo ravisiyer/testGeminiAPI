@@ -15,29 +15,6 @@ const genAI = new GoogleGenAI({ apiKey: key });
 // const modelName = process.env.REACT_APP_GEMINI_MODEL_NAME;
 // console.log(`Model name: ${modelName}`)
 
-let modelsData
-async function listAvailableModels() {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models?key=${key}`
-  // console.log(`listAvailableModels url: ${url}`) Exposes APIkey on browser console!
-  // ... So use only while debugging
-
-  let data;
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      console.error(`HTTP error! status: ${response.status}`);
-    }
-
-    data = await response.json();
-  } catch (error) {
-    console.error("Fetching data failed:", error);
-  }
-  console.log("Available models:", data);
-  modelsData = data
-  return data;
-}
-
-listAvailableModels();
 
 function Trial() {
   const [userInput, setUserInput] = useState('');
@@ -47,10 +24,50 @@ function Trial() {
   const [modelUsed, setModelUsed] = useState(process.env.REACT_APP_GEMINI_MODEL_NAME);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedModelName, setSelectedModelName] = useState(null);
+  // const [modelsData, setModelsData] = useState([])
+  const [modelsList, setModelsList] = useState([])
 
   const [modelUsedInputWidth, setModelUsedInputWidth] = useState('auto');
   const modelUsedInputRef = useRef(null);
   const measureRef = useRef(null);
+
+  useEffect(()=>{
+    async function listAvailableModels() {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models?key=${key}`
+      // console.log(`listAvailableModels url: ${url}`) Exposes APIkey on browser console!
+      // ... So use only while debugging
+    
+      let data;
+      try {
+        const response = await fetch(url);
+    
+        // For testing
+        // const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+        // await(delay(6000)); // 1 minute = 60000 ms; 6000 ms = 6 secs
+    
+        if (!response.ok) {
+          console.error(`HTTP error! status: ${response.status}`);
+        }
+    
+        data = await response.json();
+      } catch (error) {
+        console.error("Fetching data failed:", error);
+      }
+      console.log("Available models:", data);
+      let modelsListTmp = []
+      if (data?.models?.length) {
+        data.models.map((model) => {
+          if (model.supportedGenerationMethods.includes('generateContent')) {
+            modelsListTmp.push({name: model.name, code: model.name})
+          }
+          return null
+        })
+        setModelsList(modelsListTmp);
+      }
+    }
+   
+    listAvailableModels();
+  },[])
 
   useEffect(() => {
     if (!measureRef.current) return;
@@ -114,19 +131,6 @@ function Trial() {
     }
   };
   // console.log (`isMobile = ${isMobile}`)
-  let modelsList = [
-    // { name: modelname, code: modelname },
-  ];
-
-  if ((modelsList.length === 0) && modelsData ) {
-      modelsData.models.map((model) => {
-        if (model.supportedGenerationMethods.includes('generateContent')) {
-          modelsList.push({name: model.name, code: model.name})
-        }
-        return null
-      })
-  }
-  
 
   return (
     <div className="trial-chat-container">
@@ -157,11 +161,14 @@ function Trial() {
             />
           </div>
           <div>
-          <button className="list-models-btn" onClick={openModal}>List</button>
+            <button className="list-models-btn" onClick={openModal}
+            disabled={!(modelsList?.length)}>
+              List
+            </button>
           </div>
         </div>
         <div>
-          <Modal isOpen={isModalOpen} onClose={closeModal} modelsData={modelsData}>
+          <Modal isOpen={isModalOpen} onClose={closeModal}>
             <div className="models-list-content">
               <div className="models-list-header">
                 <h3>Models with 'generateContent'</h3>
@@ -224,6 +231,8 @@ function Trial() {
         { !isLoading && response ?
         <div className="message message-bot">
           <ReactMarkdown>{response}</ReactMarkdown>
+          {/* Below code is a hack for issue that adding padding bottom to message-bot class does not seem to work */}
+          <div style={{paddingBottom:"5px"}}></div>
         </div>
         : null
         }
