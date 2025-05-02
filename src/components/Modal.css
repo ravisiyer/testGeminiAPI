@@ -32,14 +32,3 @@
     border: none;
     background: none;
   }
-
-  .modal-p {
-    margin-top: 5px;
-    margin-bottom: 5px;
-  }
-
-  /* Target listbox items */
-  .p-listbox .p-listbox-list .p-listbox-item {
-    padding: 0.25rem 0.5rem; /* Adjust these values as needed */
-    line-height: 1.2;         /* Optional: reduce line height */
-  }

@@ -1,4 +1,3 @@
-// import React, { useState } from 'react';
 import './Modal.css'; // Import CSS for styling
 
 const Modal = ({ isOpen, onClose, children }) => {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import ReactMarkdown from 'react-markdown'; // to render markdown responses
-import './trial.css'
+import './Trial.css'
 import TextareaAutosize from 'react-textarea-autosize';
 import {isMobile} from 'react-device-detect';
 import Modal from './Modal';
@@ -12,10 +12,6 @@ import "primereact/resources/themes/lara-light-cyan/theme.css";
 const key = process.env.REACT_APP_GEMINI_API_KEY
 const genAI = new GoogleGenAI({ apiKey: key });
 
-// const modelName = process.env.REACT_APP_GEMINI_MODEL_NAME;
-// console.log(`Model name: ${modelName}`)
-
-
 function Trial() {
   const [userInput, setUserInput] = useState('');
   const [youSaid, setYouSaid] = useState('');
@@ -24,12 +20,28 @@ function Trial() {
   const [modelUsed, setModelUsed] = useState(process.env.REACT_APP_GEMINI_MODEL_NAME);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedModelName, setSelectedModelName] = useState(null);
-  // const [modelsData, setModelsData] = useState([])
   const [modelsList, setModelsList] = useState([])
+  const defaultChatContainerWidth = process.env.REACT_APP_DEFAULT_CHAT_CONTAINER_WIDTH ?
+     process.env.REACT_APP_DEFAULT_CHAT_CONTAINER_WIDTH : "800px"
+  const [chatContainerWidth, setChatContainerWidth] = useState(defaultChatContainerWidth);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   const [modelUsedInputWidth, setModelUsedInputWidth] = useState('auto');
   const modelUsedInputRef = useRef(null);
   const measureRef = useRef(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Clean up the event listener on unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []); 
 
   useEffect(()=>{
     async function listAvailableModels() {
@@ -72,7 +84,6 @@ function Trial() {
   useEffect(() => {
     if (!measureRef.current) return;
     measureRef.current.textContent = modelUsed;
-    // setModelUsedInputWidth(measureRef.current.offsetWidth + 2); // Add some extra space
     setModelUsedInputWidth(measureRef.current.offsetWidth + 8); // Add some extra space
   }, [modelUsed]);
 
@@ -89,8 +100,12 @@ function Trial() {
       model: modelUsed,
       contents: prompt,
     });
-    console.log(response.text);
-    return response.text; // return the response
+    console.log(response?.text);
+    if (response?.text) {
+      return response.text; // return the response
+    } else {
+      return "Gemini did not give any response text but did not raise an error!"
+    }
   }
 
   const handleUserInput = (e) => {
@@ -130,12 +145,40 @@ function Trial() {
       handleSubmit();
     }
   };
-  // console.log (`isMobile = ${isMobile}`)
+
+  const handleToggleFullScreen = (e) => {
+    if (chatContainerWidth === "100vw" ) {
+      setChatContainerWidth(defaultChatContainerWidth)
+    } else {
+      setChatContainerWidth("100vw")
+    }
+  }
+  
+  const isWindowWiderThanDefaultCCWidth = () => {
+    const intDefaultChatContainerWidth = parseInt(defaultChatContainerWidth);
+    if (intDefaultChatContainerWidth) {
+      // console.log(`windowWidth: ${windowWidth}`)
+      // console.log(`intDefaultChatContainerWidth: ${intDefaultChatContainerWidth}`)
+      return (windowWidth > intDefaultChatContainerWidth)
+    }
+    // console.log(`parseInt gave 0 or NaN for defaultChatContainerWidth: ${defaultChatContainerWidth}`)
+    return false; // safe value
+  }
 
   return (
-    <div className="trial-chat-container">
+    <div className="trial-chat-container" style={{maxWidth: `${chatContainerWidth}`}}>
       <div className="trial-header-container">
-        <h2>Gemini AI API 2nd Trial</h2> 
+        <div className="trial-header-row">
+          <h2>Gemini AI API 2nd Trial</h2>
+          {/* <div> {isMobile || (window.width<= 1000) ? null :  */}
+          <div> {isWindowWiderThanDefaultCCWidth() ? 
+                  <button onClick={handleToggleFullScreen}>
+                    {chatContainerWidth === "100vw" ? "Normal width" : "Full width" }
+                  </button>
+                  : 
+                  null }
+          </div>
+        </div>
         <div className="models-used-container">
           <div style={{ display: 'inline-block' }}>
             <label htmlFor="modelUsedInput">Model Used: </label>
@@ -173,8 +216,6 @@ function Trial() {
               <div className="models-list-header">
                 <h3>Models with 'generateContent'</h3>
                 <div>
-                  {/* <p className="modal-p">Model used now: {modelUsed}</p>
-                  <p className="modal-p">Model selected: {selectedModelName?.name}</p> */}
                   <div className="model-select-grid">
                     <span className="model-select-label">Model used now:</span>
                     <div>
@@ -185,7 +226,6 @@ function Trial() {
                     <span className="model-select-value">{selectedModelName?.name}</span>
                     </div>
                   </div>
-                  {/* <p className="modal-p"> */}
                     <button className="set-selected-model-btn"
                       disabled={selectedModelName?.name && selectedModelName.name !== modelUsed ? false : true}
                       onClick={()=>selectedModelName?.name && setModelUsed(selectedModelName?.name)}>
