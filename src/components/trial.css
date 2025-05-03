@@ -2,8 +2,6 @@
 
 body{
     overflow: hidden;
-    /* background-color: gray; */
-    /* background-color: white; */
     background-color: #f0f0f0;
   }
 
@@ -118,69 +116,9 @@ h2{
   /* margin-right: auto; */
 }
 
-.btn {
-  background-color: #007bff;
-  border: none;
-  padding: 10px;
-  border-radius: 30%;
-  cursor: pointer;
-  color: white;
-  font-size: 12px;
-  margin-left: 10px;
-}
-
-.btn:hover:enabled {
-  background-color: #0056b3;
-}
-
-.btn:disabled {
-  background-color: #ccc; /* Light gray */
-  color: #666;            /* Dimmed text */
-  cursor: default;
-}
-
-/* .list-models-btn, .toggle-full-width-btn { */
-  /* background-color: #007bff;
-  border: none;
-  padding: 10px; */
-  /* border-radius: 30%; */
-  /* cursor: pointer;
-  color: white;
-  font-size: 12px;
-  margin-left: 10px; */
-/* } */
-
 .toggle-full-width-btn {
   border-radius: 20%;
 }
-
-/* .list-models-btn:hover:enabled,
-.toggle-full-width-btn:hover {
-  background-color: #0056b3;
-} */
-
-/* .list-models-btn:disabled {
-  background-color: #ccc;  */
-  /* Light gray */
-  /* color: #666; */
-              /* Dimmed text */
-  /* cursor: default;
-} */
-
-/* .send-btn {
-  background-color: #007bff;
-  border: none;
-  padding: 10px;
-  border-radius: 30%;
-  cursor: pointer;
-  color: white;
-  font-size: 12px;
-  margin-left: 10px;
-}
- */
-/* .send-btn:hover {
-  background-color: #0056b3;
-} */
 
 /* (min-height: 500px) was added to cater to my Samsung M21 phone in landscape mode */
 @media only screen and (min-width: 768px) and (min-height: 500px) {

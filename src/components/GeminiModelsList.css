@@ -31,53 +31,31 @@
   
   .model-select-value {
     text-align: left;
-    /* padding: 2px; */
     font-size: 16px;
     background-color: #6431c1;
     color: white;
-    /* border-radius: 5%; */
-    width: auto;
-    height: auto;
+    /* width: auto;
+    height: auto; */
   }
   
   .model-select-value:not(:empty) {
     padding: 2px;
   }
 
-  .set-selected-model-btn {
-    background-color: #007bff;
-    border: none;
-    cursor: pointer;
-    color: white;
-    font-size: 12px;
-    /* margin-left: 10px; */
-    padding: 10px;
-    border-radius: 5%;
-    margin: 0px auto 10px auto;
-  }
-  
-  .set-selected-model-btn:disabled {
-    background-color: #ccc; /* Light gray */
-    color: #666;            /* Dimmed text */
-    cursor: default;
-    /* cursor: not-allowed; */
-        /* Optional visual cue */
-  }
-  
-  .set-selected-model-btn:hover:enabled {
-    background-color: #0056b3;
-  }
-  
   .models-list {
     flex-grow: 1; 
     overflow-y: auto;
-    /* max-height: 60vh; */
   }
   
 /* Target Primereact listbox items */
-.p-listbox .p-listbox-item {
+/* .p-listbox .p-listbox-item {
     padding: 0.25rem 0.5rem; 
     line-height: 1.2;        
+} */
+
+.p-listbox .p-listbox-item {
+  padding: 4px 8px; /* Converted from 0.25rem 0.5rem */
+  line-height: 1.2;        
 }
 
 .p-listbox-list {
@@ -90,7 +68,8 @@
 }
 /* Style the filter input */
 .p-listbox-filter {
-  padding: 0.25rem 0.5rem;
+  /* padding: 0.25rem 0.5rem; */
+  padding: 4px 8px; 
   margin: 0;
   border: 2px solid #007bff;
   border-radius: 6px;
@@ -103,10 +82,35 @@
     margin-top: 10px;
   }
   
+/* .set-selected-model-btn {
+  background-color: #007bff;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-size: 12px;
+  padding: 10px;
+  border-radius: 5%;
+  margin: 0 auto 10px auto;
+} */
+
+.set-selected-model-btn {
+  border-radius: 5%;
+  margin: 0 auto 10px auto;
+}
+
+/* .set-selected-model-btn:hover:enabled {
+  background-color: #0056b3;
+} */
+
+/* .set-selected-model-btn:disabled {
+  background-color: #ccc;
+  color: #666;           
+  cursor: default;
+} */
 
 @media only screen and (min-width: 768px) {
-    .model-select-grid {
-        grid-template-columns: 130px 1fr; /* label column fixed, value column flexible */
-    }
+  .model-select-grid {
+      grid-template-columns: 130px 1fr; /* label column fixed, value column flexible */
+  }
 }
        

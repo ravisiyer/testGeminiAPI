@@ -28,6 +28,27 @@
   color: #61dafb;
 }
 
+.btn {
+  background-color: #007bff;
+  border: none;
+  padding: 10px;
+  border-radius: 30%;
+  cursor: pointer;
+  color: white;
+  font-size: 12px;
+  margin-left: 10px;
+}
+
+.btn:hover:enabled {
+  background-color: #0056b3;
+}
+
+.btn:disabled {
+  background-color: #ccc; /* Light gray */
+  color: #666;            /* Dimmed text */
+  cursor: default;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
