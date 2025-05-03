@@ -173,7 +173,7 @@ function Trial() {
         <div className="trial-header-row">
           <h2>Gemini AI API 2nd Trial</h2>
           <div> {isWindowWiderThanDefaultCCWidth() ? 
-                  <button className="toggle-full-width-btn"
+                  <button className="btn toggle-full-width-btn"
                     onClick={handleToggleFullScreen}>
                     {chatContainerWidth === "100vw" ? "Normal width" : "Full width" }
                   </button>
@@ -206,7 +206,7 @@ function Trial() {
             />
           </div>
           <div>
-            <button className="list-models-btn" onClick={openModal}
+            <button className="btn list-models-btn" onClick={openModal}
             disabled={!(modelsList?.length)}>
               List
             </button>
@@ -220,17 +220,18 @@ function Trial() {
         />
         <div className="trial-input-container">
           <TextareaAutosize
+          className="trial-input"
           type="text"
           value={userInput}
           onChange={handleUserInput}
           onKeyDown={isMobile ? undefined : handleKeyPress}
           placeholder="Type your message here... Note: Send will delete old message."
-          className="trial-input"
           disabled = {isLoading ? true : false}
           maxRows={10}
           />
           <div>
-          <button onClick={handleSubmit} className="send-btn">
+          <button className="btn" onClick={handleSubmit}>
+          {/* <button className="send-btn" onClick={handleSubmit}> */}
               Send
           </button>
           </div>
