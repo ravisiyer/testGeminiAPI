@@ -3,11 +3,12 @@ import ReactMarkdown from 'react-markdown'; // to render markdown responses
 import './Trial.css'
 import TextareaAutosize from 'react-textarea-autosize';
 import {isMobile} from 'react-device-detect';
-import Modal from './Modal';
+// import Modal from './Modal';
 import { GoogleGenAI } from "@google/genai";
 
-import { ListBox } from 'primereact/listbox';
-import "primereact/resources/themes/lara-light-cyan/theme.css";
+// import { ListBox } from 'primereact/listbox';
+// import "primereact/resources/themes/lara-light-cyan/theme.css";
+import GeminiModelsList from "./GeminiModelsList";
 
 const key = process.env.REACT_APP_GEMINI_API_KEY
 const genAI = new GoogleGenAI({ apiKey: key });
@@ -19,7 +20,7 @@ function Trial() {
   const [isLoading, setIsLoading] = useState(false);
   const [modelUsed, setModelUsed] = useState(process.env.REACT_APP_GEMINI_MODEL_NAME);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedModelName, setSelectedModelName] = useState(null);
+  // const [selectedModelName, setSelectedModelName] = useState(null);
   const [modelsList, setModelsList] = useState([])
   const defaultChatContainerWidth = process.env.REACT_APP_DEFAULT_CHAT_CONTAINER_WIDTH ?
      process.env.REACT_APP_DEFAULT_CHAT_CONTAINER_WIDTH : "800px"
@@ -211,43 +212,12 @@ function Trial() {
             </button>
           </div>
         </div>
-        <div>
-          <Modal isOpen={isModalOpen} onClose={closeModal}>
-            <div className="models-list-content">
-              <div className="models-list-header">
-                <h3>Models with 'generateContent'</h3>
-                <div>
-                  <div className="model-select-grid">
-                    <span className="model-select-label">Model used now:</span>
-                    <div>
-                    <span className="model-select-value">{modelUsed}</span>
-                    </div>
-                    <span className="model-select-label">Model selected:</span>
-                    <div>
-                    <span className="model-select-value">{selectedModelName?.name}</span>
-                    </div>
-                  </div>
-                    <button className="set-selected-model-btn"
-                      disabled={selectedModelName?.name && selectedModelName.name !== modelUsed ? false : true}
-                      onClick={()=>selectedModelName?.name && setModelUsed(selectedModelName?.name)}>
-                        Set selected model as model to use
-                    </button>
-                  {/* </p> */}
-                </div>
-              <p style={{margin: "0 auto 10px auto"}}>Available models supporting 'generateContent':</p>      
-              </div>
-              <div className="models-list">
-                  <div className="card flex justify-content-center">  
-                    <ListBox value={selectedModelName} onChange={(e) => setSelectedModelName(e.value)}
-                    options={modelsList} optionLabel="name" className="w-full md:w-14rem" />
-                  </div>
-              </div>
-              <div className="models-list-close">
-                <button onClick={closeModal}>Close</button>
-              </div>
-            </div>
-          </Modal>
-        </div>
+        <GeminiModelsList isModalOpen={isModalOpen}
+          closeModal={closeModal}
+          modelUsed={modelUsed}
+          setModelUsed={setModelUsed}
+          modelsList={modelsList}
+        />
         <div className="trial-input-container">
           <TextareaAutosize
           type="text"
@@ -265,7 +235,6 @@ function Trial() {
           </button>
           </div>
         </div>
-        {/* <p>Note: To keep trial simple, only one message exchange is shown/retained.</p> */}
         {youSaid && <p className="message message-user">{youSaid}</p>}
         {isLoading && <p className="loading-text">Generating response...</p>}
       </div>
