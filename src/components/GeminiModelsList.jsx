@@ -26,11 +26,10 @@ const GeminiModelsList = ({isModalOpen, closeModal, modelUsed, setModelUsed,
                 </div>
               </div>
                 <button className="btn set-selected-model-btn"
-                  disabled={selectedModelName?.name && selectedModelName.name !== modelUsed ? false : true}
+                  disabled={selectedModelName?.name && selectedModelName.name === modelUsed}
                   onClick={()=>selectedModelName?.name && setModelUsed(selectedModelName?.name)}>
                     Set selected model as model to use
                 </button>
-              {/* </p> */}
             </div>
           <p style={{margin: "0 auto 10px auto"}}>Available models supporting 'generateContent':</p>      
           </div>

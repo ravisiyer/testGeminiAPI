@@ -3,12 +3,9 @@ import ReactMarkdown from 'react-markdown'; // to render markdown responses
 import './Trial.css'
 import TextareaAutosize from 'react-textarea-autosize';
 import {isMobile} from 'react-device-detect';
-// import Modal from './Modal';
 import { GoogleGenAI } from "@google/genai";
-
-// import { ListBox } from 'primereact/listbox';
-// import "primereact/resources/themes/lara-light-cyan/theme.css";
 import GeminiModelsList from "./GeminiModelsList";
+import debounce from 'lodash/debounce';
 
 const key = process.env.REACT_APP_GEMINI_API_KEY
 const genAI = new GoogleGenAI({ apiKey: key });
@@ -18,9 +15,8 @@ function Trial() {
   const [youSaid, setYouSaid] = useState('');
   const [response, setResponse] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [modelUsed, setModelUsed] = useState(process.env.REACT_APP_GEMINI_MODEL_NAME);
+  const [modelUsed, setModelUsed] = useState(process.env.REACT_APP_GEMINI_MODEL_NAME || "models/gemini-2.0-flash");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [selectedModelName, setSelectedModelName] = useState(null);
   const [modelsList, setModelsList] = useState([])
   const defaultChatContainerWidth = process.env.REACT_APP_DEFAULT_CHAT_CONTAINER_WIDTH ?
      process.env.REACT_APP_DEFAULT_CHAT_CONTAINER_WIDTH : "800px"
@@ -32,13 +28,12 @@ function Trial() {
   const measureRef = useRef(null);
 
   useEffect(() => {
-    const handleResize = () => {
+    const handleResize = debounce(() => {
       setWindowWidth(window.innerWidth);
-    };
+    }, 200); // 200ms debounce delay
 
     window.addEventListener('resize', handleResize);
 
-    // Clean up the event listener on unmount
     return () => {
       window.removeEventListener('resize', handleResize);
     };
@@ -64,7 +59,7 @@ function Trial() {
     
         data = await response.json();
       } catch (error) {
-        console.error("Fetching data failed:", error);
+        console.error("Fetching list of available models failed:", error);
       }
       console.log("Available models:", data);
       let modelsListTmp = []
@@ -148,7 +143,7 @@ function Trial() {
     }
   };
 
-  const handleToggleFullScreen = (e) => {
+  const handleToggleFullScreen = () => {
     if (chatContainerWidth === "100vw" ) {
       setChatContainerWidth(defaultChatContainerWidth)
     } else {
@@ -159,8 +154,6 @@ function Trial() {
   const isWindowWiderThanDefaultCCWidth = () => {
     const intDefaultChatContainerWidth = parseInt(defaultChatContainerWidth);
     if (intDefaultChatContainerWidth) {
-      // console.log(`windowWidth: ${windowWidth}`)
-      // console.log(`intDefaultChatContainerWidth: ${intDefaultChatContainerWidth}`)
       return (windowWidth > intDefaultChatContainerWidth)
     }
     // console.log(`parseInt gave 0 or NaN for defaultChatContainerWidth: ${defaultChatContainerWidth}`)
@@ -208,7 +201,9 @@ function Trial() {
           <div>
             <button className="btn list-models-btn" onClick={openModal}
             disabled={!(modelsList?.length)}>
-              List
+              {/* No error handling for failure to load list. So simple UI of simply keeping List disabled 
+                if modelsList is empty.*/}
+              List  
             </button>
           </div>
         </div>
@@ -225,15 +220,15 @@ function Trial() {
           value={userInput}
           onChange={handleUserInput}
           onKeyDown={isMobile ? undefined : handleKeyPress}
-          placeholder="Type your message here... Note: Send will delete old message."
+          placeholder={response ? "Type new message here (old message will be replaced)..."
+          : "Type your message here..."}
           disabled = {isLoading ? true : false}
           maxRows={10}
           />
           <div>
-          <button className="btn" onClick={handleSubmit}>
-          {/* <button className="send-btn" onClick={handleSubmit}> */}
-              Send
-          </button>
+            <button className="btn" onClick={handleSubmit} disabled={isLoading}>
+              {isLoading ? "Sending..." : "Send"}
+            </button>
           </div>
         </div>
         {youSaid && <p className="message message-user">{youSaid}</p>}

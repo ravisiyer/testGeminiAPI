@@ -3,58 +3,52 @@
     flex-direction: column;
     max-height: 90vh;
     /* max-height: 100vh; */
-  }
-  
-  .models-list-header {
-    flex-grow: 0; 
-  }
-  
-  h3{
-    text-align: center;
-    margin-top: 5px;
-    margin-bottom: 5px;
-  }
-  
-  .model-select-grid {
-    display: grid;
-    grid-template-columns: 1fr; 
-    gap: 10px 2px; /* row-gap, column-gap */
-    /* max-width: 450px; */
-    margin: 10px auto;
-  }
-  
-  .model-select-label {
-    text-align: left;
-    align-self: center;
-    font-size: 16px;
-  }
-  
-  .model-select-value {
-    text-align: left;
-    font-size: 16px;
-    background-color: #6431c1;
-    color: white;
-    /* width: auto;
-    height: auto; */
-  }
-  
-  .model-select-value:not(:empty) {
-    padding: 2px;
-  }
+}
 
-  .models-list {
-    flex-grow: 1; 
-    overflow-y: auto;
-  }
+.models-list-header {
+  flex-grow: 0; 
+}
+
+h3{
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+  
+.model-select-grid {
+  display: grid;
+  grid-template-columns: 1fr; 
+  gap: 10px 2px; /* row-gap, column-gap */
+  /* max-width: 450px; */
+  margin: 10px auto;
+}
+
+.model-select-label {
+  text-align: left;
+  align-self: center;
+  font-size: 16px;
+}
+
+.model-select-value {
+  text-align: left;
+  font-size: 16px;
+  background-color: #6431c1;
+  color: white;
+}
+  
+.model-select-value:not(:empty) {
+  padding: 2px;
+}
+
+.models-list {
+  flex-grow: 1; 
+  overflow-y: auto;
+}
   
 /* Target Primereact listbox items */
-/* .p-listbox .p-listbox-item {
-    padding: 0.25rem 0.5rem; 
-    line-height: 1.2;        
-} */
 
 .p-listbox .p-listbox-item {
-  padding: 4px 8px; /* Converted from 0.25rem 0.5rem */
+  padding: 4px 8px; 
   line-height: 1.2;        
 }
 
@@ -68,7 +62,6 @@
 }
 /* Style the filter input */
 .p-listbox-filter {
-  /* padding: 0.25rem 0.5rem; */
   padding: 4px 8px; 
   margin: 0;
   border: 2px solid #007bff;
@@ -82,31 +75,10 @@
     margin-top: 10px;
   }
   
-/* .set-selected-model-btn {
-  background-color: #007bff;
-  border: none;
-  cursor: pointer;
-  color: white;
-  font-size: 12px;
-  padding: 10px;
-  border-radius: 5%;
-  margin: 0 auto 10px auto;
-} */
-
 .set-selected-model-btn {
   border-radius: 5%;
-  margin: 0 auto 10px auto;
+  margin-bottom: 10px;
 }
-
-/* .set-selected-model-btn:hover:enabled {
-  background-color: #0056b3;
-} */
-
-/* .set-selected-model-btn:disabled {
-  background-color: #ccc;
-  color: #666;           
-  cursor: default;
-} */
 
 @media only screen and (min-width: 768px) {
   .model-select-grid {
