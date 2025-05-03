@@ -114,6 +114,7 @@ function Trial() {
 
   const handleSubmit = async () => {
     if (!userInput.trim()) {
+      setYouSaid('');
       setResponse("Please enter a prompt.." );
       return;
     }
@@ -170,9 +171,9 @@ function Trial() {
       <div className="trial-header-container">
         <div className="trial-header-row">
           <h2>Gemini AI API 2nd Trial</h2>
-          {/* <div> {isMobile || (window.width<= 1000) ? null :  */}
           <div> {isWindowWiderThanDefaultCCWidth() ? 
-                  <button onClick={handleToggleFullScreen}>
+                  <button className="toggle-full-width-btn"
+                    onClick={handleToggleFullScreen}>
                     {chatContainerWidth === "100vw" ? "Normal width" : "Full width" }
                   </button>
                   : 
@@ -253,7 +254,7 @@ function Trial() {
           value={userInput}
           onChange={handleUserInput}
           onKeyDown={isMobile ? undefined : handleKeyPress}
-          placeholder="Type your message here..."
+          placeholder="Type your message here... Note: Send will delete old message."
           className="trial-input"
           disabled = {isLoading ? true : false}
           maxRows={10}
@@ -264,6 +265,7 @@ function Trial() {
           </button>
           </div>
         </div>
+        {/* <p>Note: To keep trial simple, only one message exchange is shown/retained.</p> */}
         {youSaid && <p className="message message-user">{youSaid}</p>}
         {isLoading && <p className="loading-text">Generating response...</p>}
       </div>
