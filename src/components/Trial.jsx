@@ -230,12 +230,13 @@ function Trial() {
           />
           <div>
             <button className="btn" onClick={handleSubmit} disabled={isLoading}>
-              {isLoading ? "Sending..." : "Send"}
+              {/* {isLoading ? "Sending..." : "Send"} */}
+              Send
             </button>
           </div>
         </div>
         {youSaid && <p className="message message-user">{youSaid}</p>}
-        {isLoading && <p className="loading-text">Generating response...</p>}
+        {isLoading && <p className="loading-text">Waiting for response from Gemini...</p>}
       </div>
       <div className="trial-chat-response">
         { !isLoading && response ?

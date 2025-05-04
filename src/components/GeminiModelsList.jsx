@@ -21,23 +21,32 @@ const GeminiModelsList = ({isModalOpen, closeModal, modelUsed, setModelUsed,
   //   );
   // };
   const itemTemplate = (option) => (
-    <div className="flex justify-between items-center w-full">
+    <div className="listbox-item-template">
+    {/* <div className="flex justify-between items-center w-full"> */}
         <span className="span-listbox-item">{option.code}</span>
-        {/* <Button
-            // icon="pi pi-info-circle"
+        <Button
+            type="button"
+            icon="pi pi-info-circle"
             className="p-button-text p-button-sm"
-            onClick={(e) => {
-                e.stopPropagation(); // prevent ListBox selection
-                setSelectedModelName(option);
-                setDialogVisible(true);
+            onMouseDown={(e) => {
+              e.stopPropagation(); // Very important
+              console.log("Mouse down on info icon for option: ", option);
+              setSelectedModelName(option);
+              setDialogVisible(true);
             }}
+            // onClick={(e) => {
+            //     console.log("Clicked on info icon for option: ", option);
+            //     e.stopPropagation(); // prevent ListBox selection
+            //     setSelectedModelName(option);
+            //     setDialogVisible(true);
+            // }}
             // aria-label={`More info about ${option.name}`}
-        /> */}
+        />
     </div>
 );
   const handleItemClick = (e) => {
     setSelectedModelName(e.value);
-    setDialogVisible(true);
+    // setDialogVisible(true);
   };  
 
   return (
@@ -58,8 +67,8 @@ const GeminiModelsList = ({isModalOpen, closeModal, modelUsed, setModelUsed,
                 </div>
               </div>
                 <button className="btn set-selected-model-btn"
-                  disabled={selectedModelName?.name && selectedModelName.name === modelUsed}
-                  onClick={()=>selectedModelName?.name && setModelUsed(selectedModelName?.name)}>
+                  disabled={selectedModelName?.code && selectedModelName.code === modelUsed}
+                  onClick={()=>selectedModelName?.code && setModelUsed(selectedModelName?.code)}>
                     Set selected model as model to use
                 </button>
             </div>
