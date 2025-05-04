@@ -10,7 +10,7 @@ import './GeminiModelsList.css'
 
 const GeminiModelsList = ({isModalOpen, closeModal, modelUsed, setModelUsed,
   modelsList}) => {
-  const [selectedModelName, setSelectedModelName] = useState(null);
+  const [selectedModel, setSelectedModel] = useState(null);
   const [dialogVisible, setDialogVisible] = useState(false);
 
   // const itemTemplate = (option) => {
@@ -23,7 +23,7 @@ const GeminiModelsList = ({isModalOpen, closeModal, modelUsed, setModelUsed,
   const itemTemplate = (option) => (
     <div className="listbox-item-template">
     {/* <div className="flex justify-between items-center w-full"> */}
-        <span className="span-listbox-item">{option.code}</span>
+        <span className="span-listbox-item">{option.name}</span>
         <Button
             type="button"
             icon="pi pi-info-circle"
@@ -31,13 +31,13 @@ const GeminiModelsList = ({isModalOpen, closeModal, modelUsed, setModelUsed,
             onMouseDown={(e) => {
               e.stopPropagation(); // Very important
               console.log("Mouse down on info icon for option: ", option);
-              setSelectedModelName(option);
+              setSelectedModel(option);
               setDialogVisible(true);
             }}
             // onClick={(e) => {
             //     console.log("Clicked on info icon for option: ", option);
             //     e.stopPropagation(); // prevent ListBox selection
-            //     setSelectedModelName(option);
+            //     setSelectedModel(option);
             //     setDialogVisible(true);
             // }}
             // aria-label={`More info about ${option.name}`}
@@ -45,13 +45,13 @@ const GeminiModelsList = ({isModalOpen, closeModal, modelUsed, setModelUsed,
     </div>
 );
   const handleItemClick = (e) => {
-    setSelectedModelName(e.value);
+    setSelectedModel(e.value);
     // setDialogVisible(true);
   };  
 
   return (
     <div>
-      <Modal isOpen={isModalOpen} onClose={closeModal} maxModalContentWidth="400px">
+      <Modal isOpen={isModalOpen} onClose={closeModal} maxModalContentWidth="500px">
         <div className="models-list-content">
           <div className="models-list-header">
             <h3>Models with 'generateContent'</h3>
@@ -63,38 +63,37 @@ const GeminiModelsList = ({isModalOpen, closeModal, modelUsed, setModelUsed,
                 </div>
                 <span className="model-select-label">Model selected:</span>
                 <div>
-                <span className="model-select-value">{selectedModelName?.code}</span>
+                <span className="model-select-value">{selectedModel?.name}</span>
                 </div>
               </div>
                 <button className="btn set-selected-model-btn"
-                  disabled={selectedModelName?.code && selectedModelName.code === modelUsed}
-                  onClick={()=>selectedModelName?.code && setModelUsed(selectedModelName?.code)}>
+                  disabled={!selectedModel?.name || selectedModel.name === modelUsed}
+                  onClick={()=>selectedModel?.name && setModelUsed(selectedModel?.name)}>
                     Set selected model as model to use
                 </button>
             </div>
-          <p style={{margin: "0 auto 10px auto"}}>Available models supporting 'generateContent':</p>      
+          {/* <p style={{margin: "0 auto 10px auto"}}>Available models supporting 'generateContent':</p>       */}
+          <p className="available-models-label">Available models supporting 'generateContent':</p>      
           </div>
           <div className="models-list">
-              <div className="card flex justify-content-center">  
-                <ListBox value={selectedModelName} filter
+              {/* <div className="card flex justify-content-center">   */}
+                <ListBox value={selectedModel} filter
                   onChange={handleItemClick}
-                  // onChange={(e) => setSelectedModelName(e.value)}
+                  // onChange={(e) => setSelectedModel(e.value)}
                   options={modelsList}
-                  optionLabel="code"
-                  // optionLabel="name"
+                  optionLabel="name"
                   itemTemplate={itemTemplate}
-                  // tooltip="This is a test tooltip"
-                  // tooltipOptions={{ position: 'right' }}
-                  className="w-full md:w-14rem" />
-              </div>
+                  // className="w-full md:w-14rem" 
+                />
+              {/* </div> */}
               <Dialog
-                header={selectedModelName?.code}
+                header={selectedModel?.name}
                 visible={dialogVisible}
                 onHide={() => setDialogVisible(false)}
                 modal
-                style={{ width: '80vw', maxWidth: '400px' }}
+                // style={{ width: '80vw', maxWidth: '400px' }}
             >
-                <p className="p-listbox-item">{selectedModelName?.name}</p>
+                <p className="p-listbox-item">{selectedModel?.description}</p>
             </Dialog>
           </div>
           <div className="models-list-close">

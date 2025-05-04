@@ -60,21 +60,28 @@ function Trial() {
         data = await response.json();
       } catch (error) {
         console.error("Fetching list of available models failed:", error);
+        return;  
       }
       console.log("Available models:", data);
-      let modelsListTmp = []
       if (data?.models?.length) {
-        data.models.map((model) => {
-          if (model.supportedGenerationMethods.includes('generateContent')) {
-            const tooltip  = (model.displayName ? model.displayName : "No displayName") +
-                              (model.description ? `: ${model.description}` : "")
-            modelsListTmp.push({name: tooltip, code: model.name})
-            // modelsListTmp.push({name: model.name, code: model.name})
-          }
-          return null
-        })
-        setModelsList(modelsListTmp);
+        data.models = data.models.filter(model =>
+          model.supportedGenerationMethods.includes('generateContent')
+        );
       }
+      setModelsList(data?.models || []);
+      // let modelsListTmp = []
+      // if (data?.models?.length) {
+      //   data.models.map((model) => {
+      //     if (model.supportedGenerationMethods.includes('generateContent')) {
+      //       const tooltip  = (model.displayName ? model.displayName : "No displayName") +
+      //                         (model.description ? `: ${model.description}` : "")
+      //       modelsListTmp.push({name: tooltip, code: model.name})
+      //       // modelsListTmp.push({name: model.name, code: model.name})
+      //     }
+      //     return null
+      //   })
+      //   setModelsList(modelsListTmp);
+      // }
     }
    
     listAvailableModels();

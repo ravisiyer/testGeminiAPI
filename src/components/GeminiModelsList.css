@@ -44,6 +44,11 @@ h3{
   flex-grow: 1; 
   overflow-y: auto;
 }
+
+.available-models-label {
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
   
 /* Target Primereact listbox items */
 
@@ -76,6 +81,11 @@ h3{
 .p-button-sm {
   padding-top: 0;
   padding-bottom: 0;
+}
+
+.p-dialog {
+  width: 80vw;
+  max-width: 400px; 
 }
 
 .p-dialog-header {
