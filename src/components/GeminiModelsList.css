@@ -52,6 +52,20 @@ h3{
   line-height: 1.2;        
 }
 
+.span-listbox-item {
+  padding: 4px 0px; 
+  line-height: 1.2;        
+}
+
+.p-listbox-item {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.p-dialog-content {
+  padding-bottom: 8px;
+}
+
 .p-listbox-list {
   padding: 0;
   line-height: 1.2;        
@@ -68,6 +82,14 @@ h3{
   border-radius: 6px;
   font-size: 14px;
   line-height: 1.2;        
+}
+
+.p-dialog-header {
+  padding-top: 24px;
+  padding-bottom: 8px;
+}
+.p-dialog-title {
+  font-size: 16px;
 }
 
 .models-list-close {
