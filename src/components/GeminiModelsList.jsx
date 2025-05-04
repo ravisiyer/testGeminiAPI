@@ -8,6 +8,14 @@ const GeminiModelsList = ({isModalOpen, closeModal, modelUsed, setModelUsed,
   modelsList}) => {
   const [selectedModelName, setSelectedModelName] = useState(null);
 
+  const itemTemplate = (option) => {
+    return (
+        <div title={option.name}>
+            {option.code}
+        </div>
+    );
+};
+
   return (
     <div>
       <Modal isOpen={isModalOpen} onClose={closeModal} maxModalContentWidth="400px">
@@ -22,7 +30,7 @@ const GeminiModelsList = ({isModalOpen, closeModal, modelUsed, setModelUsed,
                 </div>
                 <span className="model-select-label">Model selected:</span>
                 <div>
-                <span className="model-select-value">{selectedModelName?.name}</span>
+                <span className="model-select-value">{selectedModelName?.code}</span>
                 </div>
               </div>
                 <button className="btn set-selected-model-btn"
@@ -37,7 +45,13 @@ const GeminiModelsList = ({isModalOpen, closeModal, modelUsed, setModelUsed,
               <div className="card flex justify-content-center">  
                 <ListBox value={selectedModelName} filter
                   onChange={(e) => setSelectedModelName(e.value)}
-                  options={modelsList} optionLabel="name" className="w-full md:w-14rem" />
+                  options={modelsList}
+                  optionLabel="code"
+                  // optionLabel="name"
+                  itemTemplate={itemTemplate}
+                  // tooltip="This is a test tooltip"
+                  // tooltipOptions={{ position: 'right' }}
+                  className="w-full md:w-14rem" />
               </div>
           </div>
           <div className="models-list-close">

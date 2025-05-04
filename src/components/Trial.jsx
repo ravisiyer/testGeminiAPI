@@ -66,7 +66,10 @@ function Trial() {
       if (data?.models?.length) {
         data.models.map((model) => {
           if (model.supportedGenerationMethods.includes('generateContent')) {
-            modelsListTmp.push({name: model.name, code: model.name})
+            const tooltip  = (model.displayName ? model.displayName : "No displayName") +
+                              (model.description ? `: ${model.description}` : "")
+            modelsListTmp.push({name: tooltip, code: model.name})
+            // modelsListTmp.push({name: model.name, code: model.name})
           }
           return null
         })
