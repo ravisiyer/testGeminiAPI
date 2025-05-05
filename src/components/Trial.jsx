@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import ReactMarkdown from 'react-markdown'; // to render markdown responses
-import './Trial.css'
+import './trial.css'
 import TextareaAutosize from 'react-textarea-autosize';
 import {isMobile} from 'react-device-detect';
 import { GoogleGenAI } from "@google/genai";
