@@ -18,8 +18,8 @@ const ModelNameInfoButton = ({name, modelsList, setInfoModel, setDialogVisible})
         console.log("Model not found: ", name);
         return;
       } else {
-        setInfoModel(model);
-        setDialogVisible(true);
+        setInfoModel && setInfoModel(model);
+        setDialogVisible && setDialogVisible(true);
       }
     }
     

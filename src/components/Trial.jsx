@@ -6,6 +6,8 @@ import {isMobile} from 'react-device-detect';
 import { GoogleGenAI } from "@google/genai";
 import GeminiModelsList from "./GeminiModelsList";
 import debounce from 'lodash/debounce';
+import ModelInfo from "./ModelInfo";
+import ModelNameInfoButton from "./ModelNameInfoButton";
 
 const key = process.env.REACT_APP_GEMINI_API_KEY
 const genAI = new GoogleGenAI({ apiKey: key });
@@ -26,6 +28,9 @@ function Trial() {
   const [modelUsedInputWidth, setModelUsedInputWidth] = useState('auto');
   const modelUsedInputRef = useRef(null);
   const measureRef = useRef(null);
+
+  const [infoModel, setInfoModel] = useState(null);
+  const [infoDialogVisible, setInfoDialogVisible] = useState(false);
 
   useEffect(() => {
     const handleResize = debounce(() => {
@@ -194,6 +199,15 @@ function Trial() {
               style={{ width: modelUsedInputWidth, minWidth: '10px' }}
               ref={modelUsedInputRef}
             />
+            <ModelNameInfoButton name={modelUsed} modelsList={modelsList}
+            setInfoModel={setInfoModel} setDialogVisible={setInfoDialogVisible} />
+            {infoDialogVisible &&
+              (<ModelInfo 
+                model={infoModel}
+                dialogVisible={infoDialogVisible}
+                setDialogVisible={setInfoDialogVisible}
+              />
+              )}
           </div>
           <div>
             <button className="btn list-models-btn" onClick={openModal}
@@ -224,7 +238,6 @@ function Trial() {
           />
           <div>
             <button className="btn" onClick={handleSubmit} disabled={isLoading}>
-              {/* {isLoading ? "Sending..." : "Send"} */}
               Send
             </button>
           </div>

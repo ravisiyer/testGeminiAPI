@@ -1,7 +1,6 @@
 import React, { useState} from "react";
 import Modal from './Modal';
 import ModelInfo from "./ModelInfo";
-// import { Dialog } from 'primereact/dialog';
 import { ListBox } from 'primereact/listbox';
 import { Button } from 'primereact/button';
 import "primereact/resources/themes/lara-light-cyan/theme.css";
@@ -27,7 +26,6 @@ const GeminiModelsList = ({isModalOpen, closeModal, modelUsed, setModelUsed,
               e.stopPropagation(); 
               // console.log("Mouse down on info icon for option: ", option);
               setInfoModel(option);
-              // setSelectedModel(option);
               setDialogVisible(true);
             }}
         />
@@ -38,24 +36,6 @@ const GeminiModelsList = ({isModalOpen, closeModal, modelUsed, setModelUsed,
     // setDialogVisible(true);
   };  
 
-  // const getModelByName = (name) => {
-  //   const model = modelsList.find((model) => model.name === name);
-  //   return model;
-  // }
-
-  // const handleModelNameInfoClick = (e, name) => {
-  //   e.stopPropagation(); 
-  //   // console.log("Mouse down on info icon for option: ", option);
-  //   const model = getModelByName(name);
-  //   if (model === undefined) {
-  //     console.log("Model not found: ", name);
-  //     return;
-  //   } else {
-  //     setInfoModel(model);
-  //     setDialogVisible(true);
-  //   }
-  // }
-  
   return (
     <div>
       <Modal isOpen={isModalOpen} onClose={closeModal} maxModalContentWidth="500px">
@@ -69,32 +49,12 @@ const GeminiModelsList = ({isModalOpen, closeModal, modelUsed, setModelUsed,
                   <span className="model-select-value">{modelUsed}</span>
                   <ModelNameInfoButton name={modelUsed} modelsList={modelsList}
                   setInfoModel={setInfoModel} setDialogVisible={setDialogVisible} />
-                  {/* {modelUsed && getModelByName(modelUsed) &&
-                    <Button
-                    type="button"
-                    icon="pi pi-info-circle"
-                    className="p-button-text p-button-sm"
-                    onMouseDown={(e) => {
-                      handleModelNameInfoClick(e, modelUsed);
-                    }}
-                    />
-                  } */}
                 </div>
                 <span className="model-select-label">Model selected:</span>
                 <div>
                   <span className="model-select-value">{selectedModel?.name}</span>
                   <ModelNameInfoButton name={selectedModel?.name} modelsList={modelsList}
                   setInfoModel={setInfoModel} setDialogVisible={setDialogVisible} />
-                  {/* {selectedModel?.name && 
-                    <Button
-                      type="button"
-                      icon="pi pi-info-circle"
-                      className="p-button-text p-button-sm"
-                      onMouseDown={(e) => {
-                        handleModelNameInfoClick(e, selectedModel.name);
-                      }}
-                    />
-                  } */}
                 </div>
               </div>
                 <button className="btn set-selected-model-btn"
@@ -120,15 +80,6 @@ const GeminiModelsList = ({isModalOpen, closeModal, modelUsed, setModelUsed,
                     setDialogVisible={setDialogVisible}
                   />
                   )}
-              {/* <Dialog
-                header={`Name: ${selectedModel?.name}`}
-                visible={dialogVisible}
-                onHide={() => setDialogVisible(false)}
-                modal
-            >
-                <p className="p-listbox-item">Display Name: {selectedModel?.displayName}</p>
-                <p className="p-listbox-item">Description: {selectedModel?.description}</p>
-            </Dialog> */}
           </div>
           <div className="models-list-close">
             <button onClick={closeModal}>Close</button>
