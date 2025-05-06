@@ -93,12 +93,32 @@ function Trial() {
     setIsModalOpen(false);
   };
 
+  const isModel2p0OrLater = (model) => {
+    return model.startsWith("models/gemini-2."); // Not a perfect check but good enough for now.
+  }
+
   const generateContent = async (prompt) => {
+    const config = isModel2p0OrLater(modelUsed) ?
+     {
+      tools: [{googleSearch: {}}],
+     }
+     : {}
+
     const response = await genAI.models.generateContent({
       model: modelUsed,
       contents: prompt,
+      config: config,
+      // config: {
+      //   tools: [{googleSearch: {}}],
+      // },
     });
     console.log(response?.text);
+    if (Object.keys(config).length > 0) {
+      // To get grounding metadata as web content.
+      console.log("Grounding metadata:");  
+      console.log(response?.candidates[0]?.groundingMetadata.searchEntryPoint.renderedContent);
+    }
+
     if (response?.text) {
       return response.text; // return the response
     } else {
