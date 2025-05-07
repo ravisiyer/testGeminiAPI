@@ -55,6 +55,18 @@ h2{
   border-radius: 5%;
 }
 
+ /* Grounding with Google Search (GGS) */
+.GGS-container {
+  margin-left: 10px;
+}
+
+.GGS-container label{
+  margin-left: 5px;
+}
+/* .p-checkbox {
+  border: 2px solid black;
+} */
+
 .trial-input-container {
   display: flex;
   align-items: center;

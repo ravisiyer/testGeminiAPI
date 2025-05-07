@@ -8,6 +8,8 @@ import GeminiModelsList from "./GeminiModelsList";
 import debounce from 'lodash/debounce';
 import ModelInfo from "./ModelInfo";
 import ModelNameInfoButton from "./ModelNameInfoButton";
+import { Checkbox } from 'primereact/checkbox';
+        
 
 const key = process.env.REACT_APP_GEMINI_API_KEY
 const genAI = new GoogleGenAI({ apiKey: key });
@@ -31,6 +33,7 @@ function Trial() {
 
   const [infoModel, setInfoModel] = useState(null);
   const [infoDialogVisible, setInfoDialogVisible] = useState(false);
+  const [groundingWithGS, setGroundingWithGS] = useState(false);
 
   useEffect(() => {
     const handleResize = debounce(() => {
@@ -98,22 +101,30 @@ function Trial() {
   }
 
   const generateContent = async (prompt) => {
-    const config = isModel2p0OrLater(modelUsed) ?
-     {
-      tools: [{googleSearch: {}}],
-     }
-     : {}
+    // const config = isModel2p0OrLater(modelUsed) ?
+    //  {
+    //   tools: [{googleSearch: {}}],
+    //  }
+    //  : {}
 
-    const response = await genAI.models.generateContent({
+    const generateContentParams = {
       model: modelUsed,
       contents: prompt,
-      config: config,
-      // config: {
-      //   tools: [{googleSearch: {}}],
-      // },
-    });
+    }
+    
+    if (groundingWithGS) {
+      generateContentParams.config = { tools: [{googleSearch: {}}], }
+    }
+
+    const response = await genAI.models.generateContent(generateContentParams);
+    // const response = await genAI.models.generateContent({
+    //   model: modelUsed,
+    //   contents: prompt,
+    //   config: config,
+    // });
     console.log(response?.text);
-    if (Object.keys(config).length > 0) {
+    // if (Object.keys(config).length > 0) {
+    if (generateContentParams.config) {
       // To get grounding metadata as web content.
       console.log("Grounding metadata:");  
       console.log(response?.candidates[0]?.groundingMetadata.searchEntryPoint.renderedContent);
@@ -244,6 +255,11 @@ function Trial() {
           setModelUsed={setModelUsed}
           modelsList={modelsList}
         />
+        <div className="GGS-container">
+            <Checkbox inputId="GGS" onChange={e => setGroundingWithGS(e.checked)}
+             checked={groundingWithGS}></Checkbox>
+            <label htmlFor="GGS" className="">Grounding with Google Search</label>
+        </div>
         <div className="trial-input-container">
           <TextareaAutosize
           className="trial-input"
