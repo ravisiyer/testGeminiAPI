@@ -40,7 +40,6 @@ function Trial() {
   const [infoModel, setInfoModel] = useState(null);
   const [infoDialogVisible, setInfoDialogVisible] = useState(false);
   const [groundingWithGS, setGroundingWithGS] = useState(false);
-  // const [hasUserChangedGSS, setHasUserChangedGSS] = useState(false);
   const hasUserChangedGSS = useRef(false);
 
   useEffect(() => {
@@ -98,7 +97,6 @@ function Trial() {
 
   useEffect(() => {
     if (hasUserChangedGSS.current) {
-      // setHasUserChangedGSS(false);
       hasUserChangedGSS.current = false; 
     } else {
        setGroundingWithGS(isModel2p0OrLater(modelUsed));
@@ -236,9 +234,7 @@ function Trial() {
               className="model-used-input"
               type="text"
               id="modelUsedInput"
-              // value={modelUsed}
               value={localModelUsed}
-              // onChange={(e) => setModelUsed(e.target.value)}
               onChange={(e) => {
                 const value = e.target.value;
                 setLocalModelUsed(value); // Update local state immediately
