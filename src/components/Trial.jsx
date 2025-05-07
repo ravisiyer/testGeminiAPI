@@ -20,6 +20,12 @@ function Trial() {
   const [response, setResponse] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [modelUsed, setModelUsed] = useState(process.env.REACT_APP_GEMINI_MODEL_NAME || "models/gemini-2.0-flash");
+  // Below state variable has immediately updated value of modelUsed input field and is tied to OnChange event
+  // Above modelUsed state variable gets updated after a debouncing delay to limit its useEffect related code 
+  // executions.
+  // This approach is needed as directly debouncing setModelUsed invocation in OnChange event results in 
+  // cursor position issue in React.
+  const [localModelUsed, setLocalModelUsed] = useState(modelUsed);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modelsList, setModelsList] = useState([])
   const defaultChatContainerWidth = process.env.REACT_APP_DEFAULT_CHAT_CONTAINER_WIDTH ?
@@ -34,6 +40,7 @@ function Trial() {
   const [infoModel, setInfoModel] = useState(null);
   const [infoDialogVisible, setInfoDialogVisible] = useState(false);
   const [groundingWithGS, setGroundingWithGS] = useState(false);
+  const [hasUserChangedGSS, setHasUserChangedGSS] = useState(false);
 
   useEffect(() => {
     const handleResize = debounce(() => {
@@ -88,24 +95,30 @@ function Trial() {
     setModelUsedInputWidth(measureRef.current.offsetWidth + 8); // Add some extra space
   }, [modelUsed]);
 
+  useEffect(() => {
+    if (hasUserChangedGSS) {
+      // setHasUserChangedGSS(false);
+    } else {
+       setGroundingWithGS(isModel2p0OrLater(modelUsed));
+      // isModel2p0OrLater(modelUsed) ? (!groundingWithGS && setGroundingWithGS(true)) : 
+      //   (groundingWithGS && setGroundingWithGS(false));
+    }
+  }, [modelUsed, groundingWithGS, hasUserChangedGSS]);
+
   const openModal = () => {
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
+    modelUsed !== localModelUsed && setLocalModelUsed(modelUsed); 
     setIsModalOpen(false);
   };
 
-  // const isModel2p0OrLater = (model) => {
-  //   return model.startsWith("models/gemini-2."); // Not a perfect check but good enough for now.
-  // }
+  const isModel2p0OrLater = (model) => {
+    return model.startsWith("models/gemini-2."); // Not a perfect check but good enough for now.
+  }
 
   const generateContent = async (prompt) => {
-    // const config = isModel2p0OrLater(modelUsed) ?
-    //  {
-    //   tools: [{googleSearch: {}}],
-    //  }
-    //  : {}
 
     const generateContentParams = {
       model: modelUsed,
@@ -117,13 +130,7 @@ function Trial() {
     }
 
     const response = await genAI.models.generateContent(generateContentParams);
-    // const response = await genAI.models.generateContent({
-    //   model: modelUsed,
-    //   contents: prompt,
-    //   config: config,
-    // });
     console.log(response?.text);
-    // if (Object.keys(config).length > 0) {
     if (generateContentParams.config) {
       // To get grounding metadata as web content.
       console.log("Grounding metadata:");  
@@ -193,6 +200,10 @@ function Trial() {
     return false; // safe value
   }
 
+  const debouncedSetModelUsed = debounce((value) => {
+    setModelUsed(value);
+  }, 300);
+
   return (
     <div className="trial-chat-container" style={{maxWidth: `${chatContainerWidth}`}}>
       <div className="trial-header-container">
@@ -225,8 +236,14 @@ function Trial() {
               className="model-used-input"
               type="text"
               id="modelUsedInput"
-              value={modelUsed}
-              onChange={(e) => setModelUsed(e.target.value)}
+              // value={modelUsed}
+              value={localModelUsed}
+              // onChange={(e) => setModelUsed(e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value;
+                setLocalModelUsed(value); // Update local state immediately
+                debouncedSetModelUsed(value); // Update debounced state
+              }}
               style={{ width: modelUsedInputWidth, minWidth: '10px' }}
               ref={modelUsedInputRef}
             />
@@ -256,7 +273,7 @@ function Trial() {
           modelsList={modelsList}
         />
         <div className="GGS-container">
-            <Checkbox inputId="GGS" onChange={e => setGroundingWithGS(e.checked)}
+            <Checkbox inputId="GGS" onChange={e => {setGroundingWithGS(e.checked); setHasUserChangedGSS(true)}}
              checked={groundingWithGS}></Checkbox>
             <label htmlFor="GGS" className="">Grounding with Google Search</label>
         </div>
