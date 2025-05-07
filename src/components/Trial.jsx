@@ -96,9 +96,9 @@ function Trial() {
     setIsModalOpen(false);
   };
 
-  const isModel2p0OrLater = (model) => {
-    return model.startsWith("models/gemini-2."); // Not a perfect check but good enough for now.
-  }
+  // const isModel2p0OrLater = (model) => {
+  //   return model.startsWith("models/gemini-2."); // Not a perfect check but good enough for now.
+  // }
 
   const generateContent = async (prompt) => {
     // const config = isModel2p0OrLater(modelUsed) ?
