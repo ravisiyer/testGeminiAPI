@@ -40,7 +40,8 @@ function Trial() {
   const [infoModel, setInfoModel] = useState(null);
   const [infoDialogVisible, setInfoDialogVisible] = useState(false);
   const [groundingWithGS, setGroundingWithGS] = useState(false);
-  const [hasUserChangedGSS, setHasUserChangedGSS] = useState(false);
+  // const [hasUserChangedGSS, setHasUserChangedGSS] = useState(false);
+  const hasUserChangedGSS = useRef(false);
 
   useEffect(() => {
     const handleResize = debounce(() => {
@@ -96,12 +97,11 @@ function Trial() {
   }, [modelUsed]);
 
   useEffect(() => {
-    if (hasUserChangedGSS) {
+    if (hasUserChangedGSS.current) {
       // setHasUserChangedGSS(false);
+      hasUserChangedGSS.current = false; 
     } else {
        setGroundingWithGS(isModel2p0OrLater(modelUsed));
-      // isModel2p0OrLater(modelUsed) ? (!groundingWithGS && setGroundingWithGS(true)) : 
-      //   (groundingWithGS && setGroundingWithGS(false));
     }
   }, [modelUsed, groundingWithGS, hasUserChangedGSS]);
 
@@ -273,7 +273,8 @@ function Trial() {
           modelsList={modelsList}
         />
         <div className="GGS-container">
-            <Checkbox inputId="GGS" onChange={e => {setGroundingWithGS(e.checked); setHasUserChangedGSS(true)}}
+            {/* <Checkbox inputId="GGS" onChange={e => {setGroundingWithGS(e.checked); setHasUserChangedGSS(true)}} */}
+            <Checkbox inputId="GGS" onChange={e => {setGroundingWithGS(e.checked); hasUserChangedGSS.current=true}}
              checked={groundingWithGS}></Checkbox>
             <label htmlFor="GGS" className="">Grounding with Google Search</label>
         </div>
