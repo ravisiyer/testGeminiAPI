@@ -101,7 +101,8 @@ function Trial() {
     } else {
        setGroundingWithGS(isModel2p0OrLater(modelUsed));
     }
-  }, [modelUsed, groundingWithGS, hasUserChangedGSS]);
+  }, [modelUsed, groundingWithGS]);
+  // }, [modelUsed, groundingWithGS, hasUserChangedGSS]);
 
   const openModal = () => {
     setIsModalOpen(true);

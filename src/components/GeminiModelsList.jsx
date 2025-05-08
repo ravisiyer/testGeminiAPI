@@ -62,6 +62,7 @@ const GeminiModelsList = ({isModalOpen, closeModal, modelUsed, setModelUsed,
                   onClick={()=>selectedModel?.name && setModelUsed(selectedModel?.name)}>
                     Set selected model as model to use
                 </button>
+                <button className="btn models-list-close" onClick={closeModal}>Close</button>
             </div>
           <p className="available-models-label">Available models supporting 'generateContent':</p>      
           </div>
@@ -81,9 +82,9 @@ const GeminiModelsList = ({isModalOpen, closeModal, modelUsed, setModelUsed,
                   />
                   )}
           </div>
-          <div className="models-list-close">
+          {/* <div className="models-list-close">
             <button onClick={closeModal}>Close</button>
-          </div>
+          </div> */}
         </div>
       </Modal>
     </div>
