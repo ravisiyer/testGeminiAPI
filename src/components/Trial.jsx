@@ -237,7 +237,7 @@ function Trial() {
 
   return (
     <div className="trial-chat-container" style={{maxWidth: `${chatContainerWidth}`}}>
-      <Toast ref={toast} />
+      <Toast ref={toast} position="bottom-right"/>
       <ConfirmDialog />
       <div className="trial-header-container">
         <div className="trial-header-row">

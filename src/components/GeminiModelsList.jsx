@@ -64,8 +64,9 @@ const GeminiModelsList = ({isModalOpen, closeModal, modelUsed, setModelUsed,
                 <button className="btn set-selected-model-btn"
                   disabled={!selectedModel?.name || selectedModel.name === modelUsed}
                   onClick={()=>selectedModel?.name && setModelUsed(selectedModel?.name)}>
-                    <span className="medium-width">Set selected model as model to use</span>
-                    <span className="small-width">Use selected model</span>
+                    Use selected model
+                    {/* <span className="medium-width">Set selected model as model to use</span>
+                    <span className="small-width">Use selected model</span> */}
                 </button>
                 <button className="btn models-list-close" onClick={closeModal}>Close</button>
             </div>
