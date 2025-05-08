@@ -9,7 +9,8 @@ import debounce from 'lodash/debounce';
 import ModelInfo from "./ModelInfo";
 import ModelNameInfoButton from "./ModelNameInfoButton";
 import { Checkbox } from 'primereact/checkbox';
-        
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { Toast } from 'primereact/toast';
 
 const key = process.env.REACT_APP_GEMINI_API_KEY
 const genAI = new GoogleGenAI({ apiKey: key });
@@ -41,6 +42,8 @@ function Trial() {
   const [infoDialogVisible, setInfoDialogVisible] = useState(false);
   const [groundingWithGS, setGroundingWithGS] = useState(false);
   const hasUserChangedGSS = useRef(false);
+
+  const toast = useRef(null);
 
   useEffect(() => {
     const handleResize = debounce(() => {
@@ -203,8 +206,39 @@ function Trial() {
     setModelUsed(value);
   }, 300);
 
+  const accept = () => {
+    toast.current.show({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted', life: 3000 });
+    setGroundingWithGS(true);
+    hasUserChangedGSS.current=true;
+}
+  const reject = () => {
+    toast.current.show({ severity: 'warn', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+  }
+
+  const confirmGSS = () => {
+    confirmDialog({
+        message: 'Grounding with Google Search works only for Gemini 2.0 and above. Are you sure you want to proceed?',
+        header: 'Confirmation',
+        icon: 'pi pi-exclamation-triangle',
+        defaultFocus: 'accept',
+        accept,
+        reject
+    });
+  };
+
+  const handleGGSChange = (e) => {
+    if (e.checked && !isModel2p0OrLater(modelUsed)) {
+      confirmGSS();
+    } else {
+      setGroundingWithGS(e.checked);
+      hasUserChangedGSS.current=true;
+    }
+  }
+
   return (
     <div className="trial-chat-container" style={{maxWidth: `${chatContainerWidth}`}}>
+      <Toast ref={toast} />
+      <ConfirmDialog />
       <div className="trial-header-container">
         <div className="trial-header-row">
           <h2>Gemini AI API 2nd Trial</h2>
@@ -271,7 +305,8 @@ function Trial() {
         />
         <div className="GGS-container">
             {/* <Checkbox inputId="GGS" onChange={e => {setGroundingWithGS(e.checked); setHasUserChangedGSS(true)}} */}
-            <Checkbox inputId="GGS" onChange={e => {setGroundingWithGS(e.checked); hasUserChangedGSS.current=true}}
+            <Checkbox inputId="GGS" onChange={handleGGSChange}
+            // <Checkbox inputId="GGS" onChange={e => {setGroundingWithGS(e.checked); hasUserChangedGSS.current=true}}
              checked={groundingWithGS}></Checkbox>
             <label htmlFor="GGS" className="">Grounding with Google Search</label>
         </div>
