@@ -63,10 +63,6 @@ h2{
 .GGS-container label{
   margin-left: 5px;
 }
-/* .p-checkbox {
-  border: 2px solid black;
-} */
-
 .trial-input-container {
   display: flex;
   align-items: center;
@@ -98,7 +94,6 @@ h2{
 
 .message-user {
   background-color: #bda7e7;
-  /* color: #080808; */
   color: #000;
   padding-left: 20px;
   padding-top: 10px;

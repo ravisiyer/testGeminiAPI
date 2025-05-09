@@ -3,8 +3,6 @@ import { Dialog } from 'primereact/dialog';
 
 const ModelInfo = ({model, dialogVisible, setDialogVisible}) => {
   return (
-    // console.log("ModelInfo component rendered with model: ", model),
-    // console.log("ModelInfo component rendered with dialogVisible: ", dialogVisible),
     <Dialog
       header={`Name: ${model?.name}`}
       visible={dialogVisible}

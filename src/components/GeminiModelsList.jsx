@@ -1,5 +1,4 @@
 import React, { useState} from "react";
-// import Modal from './Modal';
 import ModelInfo from "./ModelInfo";
 import { ListBox } from 'primereact/listbox';
 import { Button } from 'primereact/button';
@@ -39,13 +38,10 @@ const GeminiModelsList = ({isModalOpen, closeModal, modelUsed, setModelUsed,
 
   return (
     <div>
-      {/* <Modal isOpen={isModalOpen} onClose={closeModal} maxModalContentWidth="500px"> */}
       <Dialog header="Models with 'generateContent'"
         visible={isModalOpen} style={{ maxWidth: '600px' }} onHide={closeModal}>
-      {/* <Dialog visible={isModalOpen} style={{ maxWidth: '500px', maxHeight: '100%' }} onHide={closeModal}> */}
         <div className="models-list-content">
           <div className="models-list-header">
-            {/* <h3>Models with 'generateContent'</h3> */}
             <div>
               <div className="model-select-grid">
                 <span className="model-select-label">Model used now:</span>
@@ -65,8 +61,6 @@ const GeminiModelsList = ({isModalOpen, closeModal, modelUsed, setModelUsed,
                   disabled={!selectedModel?.name || selectedModel.name === modelUsed}
                   onClick={()=>selectedModel?.name && setModelUsed(selectedModel?.name)}>
                     Use selected model
-                    {/* <span className="medium-width">Set selected model as model to use</span>
-                    <span className="small-width">Use selected model</span> */}
                 </button>
                 <button className="btn models-list-close" onClick={closeModal}>Close</button>
             </div>
@@ -75,7 +69,6 @@ const GeminiModelsList = ({isModalOpen, closeModal, modelUsed, setModelUsed,
           <div className="models-list">
                 <ListBox value={selectedModel} filter
                   onChange={handleItemClick}
-                  // onChange={(e) => setSelectedModel(e.value)}
                   options={modelsList}
                   optionLabel="name"
                   itemTemplate={itemTemplate}
@@ -88,11 +81,7 @@ const GeminiModelsList = ({isModalOpen, closeModal, modelUsed, setModelUsed,
                   />
                   )}
           </div>
-          {/* <div className="models-list-close">
-            <button onClick={closeModal}>Close</button>
-          </div> */}
         </div>
-      {/* </Modal> */}
       </Dialog>
     </div>
   )

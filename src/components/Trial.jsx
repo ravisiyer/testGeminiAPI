@@ -105,7 +105,6 @@ function Trial() {
        setGroundingWithGS(isModel2p0OrLater(modelUsed));
     }
   }, [modelUsed, groundingWithGS]);
-  // }, [modelUsed, groundingWithGS, hasUserChangedGSS]);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -304,9 +303,7 @@ function Trial() {
           modelsList={modelsList}
         />
         <div className="GGS-container">
-            {/* <Checkbox inputId="GGS" onChange={e => {setGroundingWithGS(e.checked); setHasUserChangedGSS(true)}} */}
             <Checkbox inputId="GGS" onChange={handleGGSChange}
-            // <Checkbox inputId="GGS" onChange={e => {setGroundingWithGS(e.checked); hasUserChangedGSS.current=true}}
              checked={groundingWithGS}></Checkbox>
             <label htmlFor="GGS" className="">Grounding with Google Search</label>
         </div>

@@ -12,7 +12,6 @@ const ModelNameInfoButton = ({name, modelsList, setInfoModel, setDialogVisible})
   
     const handleModelNameInfoClick = (e, name) => {
       e.stopPropagation(); 
-      // console.log("Mouse down on info icon for option: ", option);
       const model = getModelByName(name);
       if (model === undefined) {
         console.log("Model not found: ", name);
